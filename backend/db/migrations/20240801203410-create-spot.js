@@ -13,8 +13,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull : false,
         references : {
-          model : 'User',
-          key : 'id'
+          model : 'Users'
         },
       },
       address: {
@@ -43,7 +42,6 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        allowNull : false,
       },
       description: {
         type: Sequelize.STRING

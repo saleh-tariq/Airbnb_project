@@ -79,7 +79,7 @@ const bulkSpots = [
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await Spot.bulkCreate(bulkSpots);
+		await queryInterface.bulkInsert("Spots", bulkSpots, {});
 	},
 
 	async down(queryInterface, Sequelize) {
