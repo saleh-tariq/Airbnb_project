@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           checkStars(stars) {
-            if (stars > 5 || stars < 0) {
+            if (stars > 5 || stars < 0 || !stars) {
               throw new Error("Stars must be an integer from 1 to 5");
             }
           },
