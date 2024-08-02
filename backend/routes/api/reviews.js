@@ -66,8 +66,8 @@ router.put("/:reviewId", requireAuth, async (req, res, next) => {
             next(e)
 		}
 	} else {
-		throw new Error("Can not edit another users review");
-	}
+        res.status(403).json({message: "Forbidden"})
+    }
 });
 
 router.post("/:reviewId/images", requireAuth, async (req, res) => {
@@ -99,8 +99,8 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
 		await newImage.save();
 		return res.status(201).json(newImage);
 	} else {
-		throw new Error("Can not edit another users review");
-	}
+        res.status(403).json({message: "Forbidden"})
+    }
 });
 
 router.delete("/:reviewId", requireAuth, async (req, res) => {
@@ -116,8 +116,8 @@ router.delete("/:reviewId", requireAuth, async (req, res) => {
 			message: "Successfully deleted",
 		});
 	} else {
-		throw new Error("Can not delete another users review");
-	}
+        res.status(403).json({message: "Forbidden"})
+    }
 });
 
 module.exports = router;
