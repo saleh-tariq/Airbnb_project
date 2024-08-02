@@ -35,7 +35,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: false,
         validate: {
-          isAfter: this.startDate, // only allow date strings before a specific date},
+          isAfter(date) {
+            const end = new Date(date);
+            const start = new Date(this.startDate);
+            if (end.getTime() < start.getTime()) {
+              throw new Error("end date must be after start date");
+            }
+          }, // only allow date strings before a specific date},
         },
       },
     },
