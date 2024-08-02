@@ -1,71 +1,80 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Spots', {
+    await queryInterface.createTable("Spots", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       ownerId: {
         type: Sequelize.INTEGER,
-        allowNull : false,
-        references : {
-          model : 'Users'
+        allowNull: false,
+        references: {
+          model: "Users",
         },
+        onDelete: "CASCADE",
       },
       address: {
         type: Sequelize.STRING,
-        allowNull : false,
+        allowNull: false,
       },
       city: {
         type: Sequelize.STRING,
-        allowNull : false,
+        allowNull: false,
       },
       state: {
         type: Sequelize.STRING,
-        allowNull : false,
+        allowNull: false,
       },
       country: {
         type: Sequelize.STRING,
-        allowNull : false,
+        allowNull: false,
       },
       lat: {
         type: Sequelize.FLOAT,
-        allowNull : false,
+        allowNull: false,
       },
       lng: {
         type: Sequelize.FLOAT,
-        allowNull : false,
+        allowNull: false,
       },
       name: {
         type: Sequelize.STRING,
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       price: {
         type: Sequelize.FLOAT,
-        allowNull : false,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue : Sequelize.literal("CURRENT_TIMESTAMP"),
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue : Sequelize.literal("CURRENT_TIMESTAMP"),
-      }
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+      },
     });
 
-    await queryInterface.addIndex('Spots', ['address', 'city', 'state', 'lat', 'lng'], {unique: true})
+    await queryInterface.addIndex(
+      "Spots",
+      ["address", "city", "state", "lat", "lng"],
+      { unique: true }
+    );
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeIndex('Spots', ["address", "city", "state", "lat", "lng"], { unique: true });
-    await queryInterface.dropTable('Spots');
-  }
+    await queryInterface.removeIndex(
+      "Spots",
+      ["address", "city", "state", "lat", "lng"],
+      { unique: true }
+    );
+    await queryInterface.dropTable("Spots");
+  },
 };

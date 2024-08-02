@@ -1,35 +1,35 @@
 "use strict";
 
-const relations = [
+const reviews = [
   {
     spotId: 1,
     userId: 2,
-    startDate: "2025-11-19",
-    endDate: "2025-12-20",
+    stars: 5,
+    review: "meh",
   },
   {
     spotId: 2,
     userId: 1,
-    startDate: "2025-12-19",
-    endDate: "2025-12-20",
+    stars: 1,
+    review: "IT WAS TOTALLY AWESOMEEEE!!!",
   },
   {
     spotId: 3,
     userId: 1,
-    startDate: "2025-11-21",
-    endDate: "2025-11-22",
+    stars: 2,
+    review: "..................",
   },
   {
     spotId: 4,
     userId: 2,
-    startDate: "2025-12-19",
-    endDate: "2025-12-20",
+    stars: 3,
+    review: "AWOOOOGA",
   },
   {
     spotId: 5,
     userId: 1,
-    startDate: "2025-11-19",
-    endDate: "2025-11-20",
+    stars: 4,
+    review: "meh",
   },
 ];
 
@@ -45,7 +45,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert("Bookings", relations, {});
+    await queryInterface.bulkInsert("Reviews", reviews, {});
   },
 
   async down(queryInterface, Sequelize) {
@@ -55,6 +55,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("Bookings", relations, {});
+    await queryInterface.bulkDelete("Reviews", relations, {});
   },
 };
