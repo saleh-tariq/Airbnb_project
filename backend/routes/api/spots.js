@@ -50,49 +50,6 @@ router.get('/current', requireAuth, async (req, res, next) => {
     }
   });
 
-// Get details of a spot by id
-router.get('/:spotId', async (req, res, next) => {
-    const { spotId } = req.params;
-    try {
-      const spot = await Spot.findByPk(spotId, {
-        include: [
-        { model: User, attributes: ['id', 'firstName', 'lastName'] },
-        { model: SpotImage, attributes: ['id', 'url', 'preview'] },
-        { model: Review }
-        ]
-      });
-  
-      if (!spot) {
-        res.status(404).json({
-          message: "Spot couldn't be found"
-        });
-      } else {
-        const spotInformed = {
-          id: spot.id,
-          ownerId: spot.ownerId,
-          address: spot.address,
-          city: spot.city,
-          state: spot.state,
-          country: spot.country,
-          lat: spot.lat,
-          lng: spot.lng,
-          name: spot.name,
-          description: spot.description,
-          price: spot.price,
-          createdAt: spot.createdAt,
-          updatedAt: spot.updatedAt,
-          numReviews: 5, //placeholder
-          avgStarRating: 4.5, //placeholder
-          SpotImages: spot.SpotImages,
-          Owner: spot.User
-        };
-  
-        res.status(200).json(spotInformed);
-      }
-    } catch (err) {
-      next(err);
-    }
-  });
-  
+
 
 module.exports = router;
