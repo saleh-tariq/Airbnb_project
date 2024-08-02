@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           checkSize(lat) {
-            if (lng < -90 || lng > 90) {
+            if (lat < -90 || lat > 90) {
               throw new Error("Latitude must be within -90 and 90");
             }
           },
