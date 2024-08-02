@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Spot.belongsTo(models.User);
+      Spot.belongsTo(models.User, { foreignKey: "ownerId" });
       Spot.hasMany(models.Booking, { foreignKey: "spotId" });
       Spot.hasMany(models.Review, { foreignKey: "spotId" });
       Spot.hasMany(models.SpotImage, { foreignKey: "spotId" });
@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.FLOAT,
         allowNull: false,
         validate: {
-          checkSize(lng) {
+          checkSize(lat) {
             if (lng < -90 || lng > 90) {
               throw new Error("Latitude must be within -90 and 90");
             }
