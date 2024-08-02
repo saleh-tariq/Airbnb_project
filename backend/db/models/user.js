@@ -5,8 +5,13 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       User.hasMany(models.Spot, {
-        foreignKey : 'ownerId'
-      })
+        foreignKey: "ownerId",
+      });
+      User.belongsToMany(models.Spot, {
+        through: models.Booking,
+        foreignKey: "userId",
+        otherKey: "spotId",
+      });
     }
   }
 
