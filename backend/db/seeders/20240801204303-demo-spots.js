@@ -71,7 +71,7 @@ const bulkSpots = [
     price: 135,
   },
 ];
-
+//ReviewImage
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -85,6 +85,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("Spots", { [Op.or]: bulkSpots });
+    await queryInterface.bulkDelete("Spots", bulkSpots, {});
   },
 };
