@@ -116,7 +116,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
       return res.status(404).json({ message: "Spot couldn't be found" });
     }
     if (spot.userId === req.user.id) {
-      return res.status(320).json({ message: "Forbidden" });
+      return res.status(403).json({ message: "Forbidden" });
     }
 
     const isConflicting = await checkConflict({
