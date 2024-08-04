@@ -217,6 +217,28 @@ router.get("/:spotId", async (req, res, next) => {
   }
 });
 
+// PUT a spot by :spotId
+
+// DELETE a spot by :spotId
+router.delete("/:spotId", requireAuth, async (req, res, next) => {
+  const { spotId } = req.params;
+  try {
+    const spot = await Spot.findByPk(spotId);
+    if (!spot) {
+      return res.status(404).json({
+        message: "Spot couldn't be found",
+      });
+    }
+    if (spot.userId !== req.user.id) {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+    spot.destroy();
+    res.status(200).json(spotInformed);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // POST a new spot
 router.post("/", requireAuth, validateSpot, async (req, res, next) => {
   const { address, city, state, country, lat, lng, name, description, price } =
