@@ -1,5 +1,12 @@
 const express = require("express");
-const { Spot, SpotImage, User, Review, Booking } = require("../../db/models");
+const {
+  Spot,
+  SpotImage,
+  User,
+  Review,
+  Booking,
+  ReviewImage,
+} = require("../../db/models");
 
 const { requireAuth } = require("../../utils/auth");
 
@@ -61,6 +68,43 @@ const validateSpot = [
     .withMessage("Price per day must be a positive number"),
   handleValidationErrors,
 ];
+
+// GET all reviews for a spot based on :spotId
+router.get("/:spotId/reviews", async (req, res, next) => {
+  try {
+    const spot = await Spot.findOne({
+      where: { id: req.params.spotId },
+      include: { model: Review },
+    });
+
+    if (!spot) {
+      res.status(404).json({ message: "Spot couldn't be found" });
+    }
+
+    const clearReviews = [];
+    for (let i = 0; i < spot.Reviews.length; i++) {
+      const curr = spot.Reviews[i];
+      clearReviews[i] = {
+        id: curr.id,
+        userId: curr.userId,
+        spotId: curr.spotId,
+        review: curr.review,
+        stars: curr.stars,
+        createdAt: curr.createdAt,
+        updatedAt: curr.updatedAt,
+        User: await User.findByPk(curr.userId),
+        ReviewImages: await ReviewImage.findAll({
+          where: { reviewId: curr.id },
+          attributes: ["id", "url"],
+        }),
+      };
+    }
+
+    res.status(200).json({ Reviews: clearReviews });
+  } catch (err) {
+    next(err);
+  }
+});
 
 // GET all bookings for a spot based on :spotId
 router.get("/:spotId/bookings", requireAuth, async (req, res, next) => {
