@@ -29,7 +29,7 @@ router.get("/current", async (req, res) => {
       },
     ],
   });
-  res.json({ Bookings });
+  res.status(200).json({ Bookings });
 });
 
 router.post("/", async (req, res, next) => {});
@@ -46,10 +46,11 @@ router.put("/:bookingId", requireAuth, async (req, res, next) => {
     }
 
     if (new Date(toEdit.startDate).getTime() < Date.now()) {
-      const e = new Error("Cannot modify past bookings");
-      e.status = 403;
-      next(e);
+      return res
+        .status(403)
+        .json({ message: "Past bookings can't be modified" });
     }
+
     if (toEdit.userId === user.id) {
       const { startDate, endDate } = req.body;
       const isConflicting = await checkConflict({
@@ -70,9 +71,7 @@ router.put("/:bookingId", requireAuth, async (req, res, next) => {
       const edited = await toEdit.save();
       res.json(edited);
     } else {
-      const e = new Error("Forbidden");
-      e.status = 320;
-      next(e);
+      return res.status(320).json({ message: "Forbidden" });
     }
   } catch (e) {
     e.status = 400;
@@ -83,9 +82,15 @@ router.put("/:bookingId", requireAuth, async (req, res, next) => {
 router.delete("/:bookingId", requireAuth, async (req, res) => {
   const { bookingId } = req.params;
   const currBooking = await Booking.findByPk(bookingId);
+  if (!currBooking) {
+    res.status(404).json({ message: "Booking couldn't be found" });
+  }
+  if (currBooking.userId !== req.user.id) {
+    return res.status(320).json({ message: "Forbidden" });
+  }
   currBooking.destroy();
 
-  res.json({ message: "success" });
+  res.json({ message: "Successfully deleted" });
 });
 
 module.exports = router;

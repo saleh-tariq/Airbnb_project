@@ -63,7 +63,7 @@ const validateSpot = [
 ];
 
 // GET all bookings for a spot based on :spotId
-router.get("/:spotId/bookings", async (req, res, next) => {
+router.get("/:spotId/bookings", requireAuth, async (req, res, next) => {
   try {
     const spot = await Spot.findOne({
       where: { id: req.params.spotId },
@@ -104,7 +104,7 @@ router.get("/:spotId/bookings", async (req, res, next) => {
 });
 
 // POST a booking for a spot based on :spotId
-router.post("/:spotId/bookings", async (req, res, next) => {
+router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
   try {
     const { startDate, endDate } = req.body;
     const spot = await Spot.findOne({
@@ -113,7 +113,10 @@ router.post("/:spotId/bookings", async (req, res, next) => {
     });
 
     if (!spot) {
-      res.status(404).json({ message: "Spot couldn't be found" });
+      return res.status(404).json({ message: "Spot couldn't be found" });
+    }
+    if (spot.userId === req.user.id) {
+      return res.status(320).json({ message: "Forbidden" });
     }
 
     const isConflicting = await checkConflict({
@@ -138,7 +141,7 @@ router.post("/:spotId/bookings", async (req, res, next) => {
       err.status = 403;
       throw err;
     }
-    res.status(201).json({ newBooking });
+    return res.status(201).json({ newBooking });
   } catch (err) {
     next(err);
   }
