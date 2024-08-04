@@ -218,6 +218,51 @@ router.get("/:spotId", async (req, res, next) => {
 });
 
 // PUT a spot by :spotId
+router.put("/:spotId", requireAuth, async (req, res, next) => {
+  const { spotId } = req.params;
+  try {
+    const spot = await Spot.findByPk(spotId, {
+      include: [
+        { model: User, attributes: ["id", "firstName", "lastName"] },
+        { model: SpotImage, attributes: ["id", "url", "preview"] },
+        { model: Review },
+      ],
+    });
+
+    if (!spot) {
+      return res.status(404).json({
+        message: "Spot couldn't be found",
+      });
+    }
+
+    if (spot.ownerId !== req.user.id) {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+
+    const newSpotData = {
+      address: req.body.address,
+      city: req.body.city,
+      state: req.body.state,
+      country: req.body.country,
+      lat: req.body.lat,
+      lng: req.body.lng,
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+    };
+
+    spot.set(newSpotData);
+    const edited = await spot.save();
+
+    res.status(200).json(edited);
+  } catch (err) {
+    if (err.message === "Validation error") {
+      err.status = 400;
+    }
+
+    next(err);
+  }
+});
 
 // DELETE a spot by :spotId
 router.delete("/:spotId", requireAuth, async (req, res, next) => {
