@@ -52,6 +52,20 @@ router.put("/:bookingId", requireAuth, async (req, res, next) => {
     }
     if (toEdit.userId === user.id) {
       const { startDate, endDate } = req.body;
+      const isConflicting = await checkConflict({
+        spotId: toEdit.spotId,
+        startDate,
+        endDate,
+      });
+
+      if (isConflicting) {
+        const err = new Error(
+          "Sorry, this spot is already booked for the specified dates"
+        );
+        err.errors = isConflicting;
+        err.status = 403;
+        throw err;
+      }
       toEdit.set({ startDate, endDate });
       const edited = await toEdit.save();
       res.json(edited);
