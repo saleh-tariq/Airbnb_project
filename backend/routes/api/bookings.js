@@ -24,7 +24,7 @@ router.get("/current", async (req, res) => {
           "lng",
           "name",
           "price",
-          //   "previewImg",
+          //"previewImg",
         ],
       },
     ],
