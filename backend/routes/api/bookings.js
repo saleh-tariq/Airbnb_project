@@ -6,7 +6,8 @@ const router = express.Router();
 
 const { requireAuth } = require("../../utils/auth");
 
-router.get("/current", async (req, res) => {
+// GET current user's bookings
+router.get("/current", requireAuth, async (req, res) => {
   const userId = req.user.id;
   const Bookings = await Booking.findAll({
     where: { userId },
@@ -32,47 +33,48 @@ router.get("/current", async (req, res) => {
   res.status(200).json({ Bookings });
 });
 
-router.post("/", async (req, res, next) => {});
-
+// PUT booking by ID
 router.put("/:bookingId", requireAuth, async (req, res, next) => {
   try {
     const { user } = req;
     const { bookingId } = req.params;
     const toEdit = await Booking.findByPk(bookingId);
+
+    // 404
     if (!toEdit) {
-      const e = new Error("Booking couldn't be found");
-      e.status = 404;
-      next(e);
+      return res.status(404).json({ message: "Booking couldn't be found" });
     }
 
+    // 403
     if (new Date(toEdit.startDate).getTime() < Date.now()) {
       return res
         .status(403)
         .json({ message: "Past bookings can't be modified" });
     }
 
-    if (toEdit.userId === user.id) {
-      const { startDate, endDate } = req.body;
-      const isConflicting = await checkConflict({
-        spotId: toEdit.spotId,
-        startDate,
-        endDate,
-      });
-
-      if (isConflicting) {
-        const err = new Error(
-          "Sorry, this spot is already booked for the specified dates"
-        );
-        err.errors = isConflicting;
-        err.status = 403;
-        throw err;
-      }
-      toEdit.set({ startDate, endDate });
-      const edited = await toEdit.save();
-      res.json(edited);
-    } else {
-      return res.status(320).json({ message: "Forbidden" });
+    // 403
+    if (toEdit.userId !== user.id) {
+      return res.status(403).json({ message: "Forbidden" });
     }
+
+    const { startDate, endDate } = req.body;
+    const isConflicting = await checkConflict({
+      spotId: toEdit.spotId,
+      startDate,
+      endDate,
+    });
+
+    if (isConflicting) {
+      const err = new Error(
+        "Sorry, this spot is already booked for the specified dates"
+      );
+      err.errors = isConflicting;
+      err.status = 403;
+      throw err;
+    }
+    toEdit.set({ startDate, endDate });
+    const edited = await toEdit.save();
+    res.json(edited);
   } catch (e) {
     e.status = 400;
     next(e);
@@ -86,7 +88,7 @@ router.delete("/:bookingId", requireAuth, async (req, res) => {
     res.status(404).json({ message: "Booking couldn't be found" });
   }
   if (currBooking.userId !== req.user.id) {
-    return res.status(320).json({ message: "Forbidden" });
+    return res.status(403).json({ message: "Forbidden" });
   }
   currBooking.destroy();
 
