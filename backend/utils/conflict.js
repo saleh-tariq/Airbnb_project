@@ -6,18 +6,21 @@ async function checkConflict(booking) {
     include: [Booking],
   });
   const bookings = spot.Bookings;
-  const bookingTimeline = [];
-  for (let i = 0; i < booking.length; i++) {
+  const res = {};
+  for (let i = 0; i < bookings.length; i++) {
     const [min, max, start, end] = [
-      new Date(booking[i].startDate),
-      new Date(booking[i].endDate),
-      new Date(startDate),
-      new Date(endDate),
+      new Date(bookings[i].startDate).getTime(),
+      new Date(bookings[i].endDate).getTime(),
+      new Date(startDate).getTime(),
+      new Date(endDate).getTime(),
     ];
-    if ((start >= min && start <= max) || (end >= min, end <= max)) {
-      return false;
+    if (start >= min && start <= max) {
+      res.startDate = "Start date conflicts with and existing booking";
+    }
+    if (end >= min && end <= max) {
+      res.endDate = "End date conflicts with and existing booking";
     }
   }
-  return true;
+  return res.startDate || res.endDate ? res : false;
 }
 module.exports = checkConflict;

@@ -3,6 +3,8 @@ const { Spot, SpotImage, User, Review, Booking } = require("../../db/models");
 
 const { requireAuth } = require("../../utils/auth");
 
+const checkConflict = require("../../utils/conflict");
+
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
@@ -114,6 +116,12 @@ router.post("/:spotId/bookings", async (req, res, next) => {
       res.status(404).json({ message: "Spot couldn't be found" });
     }
 
+    const isConflicting = await checkConflict({
+      spotId: spot.id,
+      startDate,
+      endDate,
+    });
+
     const newBooking = await spot.createBooking({
       userId: req.user.id,
       spotId: spot.id,
@@ -121,7 +129,16 @@ router.post("/:spotId/bookings", async (req, res, next) => {
       endDate,
     });
 
-    res.status(200).json({ newBooking });
+    if (isConflicting) {
+      newBooking.destroy();
+      const err = new Error(
+        "Sorry, this spot is already booked for the specified dates"
+      );
+      err.errors = isConflicting;
+      err.status = 403;
+      throw err;
+    }
+    res.status(201).json({ newBooking });
   } catch (err) {
     next(err);
   }
