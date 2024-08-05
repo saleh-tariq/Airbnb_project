@@ -75,7 +75,7 @@ const bulkSpots = [
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert("Spots", bulkSpots, {});
+    await Spot.bulkCreate(bulkSpots, { validate: true });
   },
 
   async down(queryInterface, Sequelize) {
@@ -85,6 +85,7 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("Spots", bulkSpots, {});
+    options.tableName = "Spots";
+    await queryInterface.bulkDelete(options, bulkSpots, {});
   },
 };

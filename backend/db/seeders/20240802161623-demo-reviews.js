@@ -1,4 +1,9 @@
 "use strict";
+const { Review } = require("../models");
+let options = {};
+if (process.env.NODE_ENV === "production") {
+  options.schema = process.env.SCHEMA; // define your schema in options object
+}
 
 const reviews = [
   {
@@ -45,7 +50,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert("Reviews", reviews, {});
+    await Review.bulkCreate(reviews, { validate: true });
   },
 
   async down(queryInterface, Sequelize) {
@@ -55,6 +60,7 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("Reviews", reviews, {});
+    options.tableName = "Reviews";
+    await queryInterface.bulkDelete(options, reviews, {});
   },
 };
