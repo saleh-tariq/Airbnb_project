@@ -154,6 +154,37 @@ router.get("/:spotId/bookings", requireAuth, async (req, res, next) => {
 	}
 });
 
+// POST Add an image to spot
+router.post("/:spotId/images", requireAuth, async (req, res, next) => {
+  const { spotId } = req.params;
+  const { url, preview} = req.body;
+  const userId = req.user.id;
+
+  const spot = await Spot.findByPk(spotId);
+
+  if(!spot) {
+    return res.status(404).json({ message: "Spot couldn't be found" });
+  }
+
+  if (spot.ownerId !== req.user.id) {
+    return res.status(403).json({ message: "Forbidden" });
+  }
+
+  const newImage = await SpotImage.create({
+    spotId,
+    url,
+    preview
+  });
+
+  res.status(201).json({
+    id: newImage.id,
+    url: newImage.url,
+    preview: newImage.preview
+  })
+
+});
+
+
 // POST a booking for a spot based on :spotId
 router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
 	try {
@@ -166,7 +197,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
 		if (!spot) {
 			return res.status(404).json({ message: "Spot couldn't be found" });
 		}
-		if (spot.userId === req.user.id) {
+		if (spot.userId !== req.user.id) {
 			return res.status(403).json({ message: "Forbidden" });
 		}
 
@@ -349,5 +380,7 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
 		next(err);
 	}
 });
+
+
 
 module.exports = router;
