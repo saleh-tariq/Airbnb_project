@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Spots", {
+    await queryInterface.createTable("spots", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "Users",
+          model: "users",
         },
         onDelete: "CASCADE",
       },
@@ -64,17 +64,17 @@ module.exports = {
     });
 
     await queryInterface.addIndex(
-      "Spots",
+      "spots",
       ["address", "city", "state", "lat", "lng"],
       { unique: true }
     );
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.removeIndex(
-      "Spots",
+      "spots",
       ["address", "city", "state", "lat", "lng"],
       { unique: true }
     );
-    await queryInterface.dropTable("Spots");
+    await queryInterface.dropTable("spots");
   },
 };
