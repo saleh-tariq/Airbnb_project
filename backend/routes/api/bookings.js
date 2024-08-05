@@ -6,6 +6,8 @@ const router = express.Router();
 
 const { requireAuth } = require("../../utils/auth");
 
+const checkConflict = require("../../utils/conflict");
+
 // GET current user's bookings
 router.get("/current", requireAuth, async (req, res) => {
   const userId = req.user.id;
@@ -36,7 +38,6 @@ router.get("/current", requireAuth, async (req, res) => {
 // PUT booking by ID
 router.put("/:bookingId", requireAuth, async (req, res, next) => {
   try {
-    const { user } = req;
     const { bookingId } = req.params;
     const toEdit = await Booking.findByPk(bookingId);
 
@@ -53,7 +54,7 @@ router.put("/:bookingId", requireAuth, async (req, res, next) => {
     }
 
     // 403
-    if (toEdit.userId !== user.id) {
+    if (toEdit.userId !== req.user.id) {
       return res.status(403).json({ message: "Forbidden" });
     }
 
@@ -89,6 +90,11 @@ router.delete("/:bookingId", requireAuth, async (req, res) => {
   }
   if (currBooking.userId !== req.user.id) {
     return res.status(403).json({ message: "Forbidden" });
+  }
+
+  // 403
+  if (new Date(currBooking.startDate).getTime() < Date.now()) {
+    return res.status(403).json({ message: "Past bookings can't be modified" });
   }
   currBooking.destroy();
 

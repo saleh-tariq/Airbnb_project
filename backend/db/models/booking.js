@@ -28,7 +28,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: false,
         validate: {
-          isAfter: new Date(Date.now()).toISOString().split("T")[0], // only allow date strings after a specific date
+          checkDate(date) {
+            if (new Date(date).getTime() < Date.now()) {
+              throw new Error("startDate cannot be in the past");
+            } // only allow date strings after a specific date
+          },
         },
       },
       endDate: {
@@ -39,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
             const end = new Date(date);
             const start = new Date(this.startDate);
             if (end.getTime() < start.getTime()) {
-              throw new Error("end date must be after start date");
+              throw new Error("endDate cannot be on or before startDate");
             }
           }, // only allow date strings before a specific date},
         },
