@@ -71,7 +71,7 @@ router.put("/:bookingId", requireAuth, async (req, res, next) => {
       );
       err.errors = isConflicting;
       err.status = 403;
-      throw err;
+      return next(err);
     }
     toEdit.set({ startDate, endDate });
     const edited = await toEdit.save();
