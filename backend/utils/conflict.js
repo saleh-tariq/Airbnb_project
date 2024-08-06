@@ -9,7 +9,9 @@ async function checkConflict(booking) {
       where: { id: { [Op.ne]: booking.id } },
     },
   });
+  //               VVVV === spot
   const bookings = spot.Bookings;
+  //                    ^^^^^^^^ === bookings
   const res = {};
   for (let i = 0; i < bookings.length; i++) {
     const [min, max, start, end] = [
