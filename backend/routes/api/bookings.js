@@ -39,7 +39,7 @@ router.get("/current", requireAuth, async (req, res) => {
 router.put("/:bookingId", requireAuth, async (req, res, next) => {
   try {
     const { bookingId } = req.params;
-    const toEdit = await Booking.findByPk(bookingId);
+    const toEdit = await Booking.findByPk(+bookingId);
 
     // 404
     if (!toEdit) {

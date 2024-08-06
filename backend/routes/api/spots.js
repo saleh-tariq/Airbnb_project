@@ -292,7 +292,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
       );
       err.errors = isConflicting;
       err.status = 403;
-      throw err;
+      return next(err);
     }
     return res.status(201).json({ newBooking });
   } catch (err) {
