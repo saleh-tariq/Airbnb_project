@@ -60,7 +60,7 @@ router.put("/:bookingId", requireAuth, async (req, res, next) => {
 
     const { startDate, endDate } = req.body;
     const isConflicting = await checkConflict({
-      userId: toEdit.id,
+      id: toEdit.id,
       spotId: toEdit.spotId,
       startDate,
       endDate,
