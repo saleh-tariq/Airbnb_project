@@ -281,7 +281,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
 
     const newBooking = await spot.createBooking({
       userId: req.user.id,
-      spotId: spot.id,
+      spotId: req.params.spotId,
       startDate,
       endDate,
     });
