@@ -15,17 +15,18 @@ async function checkConflict(booking) {
       new Date(endDate).getTime(),
     ];
     if (
-      start === end ||
-      (min >= start && min <= end) ||
-      (max >= start && max <= end)
+      bookings[i].id !== booking.id &&
+      (start === end ||
+        (min >= start && min <= end) ||
+        (max >= start && max <= end))
     ) {
       res.startDate = "Start date conflicts with an existing booking";
       res.endDate = "End date conflicts with an existing booking";
     }
-    if (start >= min && start <= max) {
+    if (bookings[i].id !== booking.id && start >= min && start <= max) {
       res.startDate = "Start date conflicts with an existing booking";
     }
-    if (end >= min && end <= max) {
+    if (bookings[i].id !== booking.id && end >= min && end <= max) {
       res.endDate = "End date conflicts with an existing booking";
     }
   }
