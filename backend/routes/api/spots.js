@@ -294,7 +294,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
       err.status = 403;
       return next(err);
     }
-    return res.status(201).json({ newBooking });
+    return res.status(201).json(newBooking);
   } catch (err) {
     err.status = 400;
     next(err);
