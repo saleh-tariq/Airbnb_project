@@ -273,6 +273,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
     }
 
     const isConflicting = await checkConflict({
+      userId: req.user.id,
       spotId: spot.id,
       startDate,
       endDate,
