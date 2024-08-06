@@ -3,7 +3,7 @@ const { Op } = require("sequelize");
 async function checkConflict(booking) {
   const { spotId, startDate, endDate } = booking;
   const spot = await Spot.findOne({
-    where: { id: spotId },
+    where: { id: +spotId },
     include: {
       model: Booking,
       where: { id: { [Op.ne]: booking.id } },
