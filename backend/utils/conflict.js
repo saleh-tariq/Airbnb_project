@@ -4,9 +4,11 @@ async function checkConflict(booking) {
   const { spotId, startDate, endDate } = booking;
   const spot = await Spot.findOne({
     where: { id: spotId },
+    include: Booking,
   });
 
   //               VVVV === spot
+  console.log(spot);
   const bookings = spot.Bookings;
   //                    ^^^^^^^^ === bookings
 
