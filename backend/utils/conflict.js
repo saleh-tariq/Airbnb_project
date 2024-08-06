@@ -1,9 +1,13 @@
-const { Booking, Spot } = require("../db/models");
+const { Booking, Spot, sequelize } = require("../db/models");
+const { Op } = require("sequelize");
 async function checkConflict(booking) {
   const { spotId, startDate, endDate } = booking;
   const spot = await Spot.findOne({
     where: { id: spotId },
-    include: [Booking],
+    include: {
+      model: Booking,
+      where: { id: { [Op.ne]: booking.id } },
+    },
   });
   const bookings = spot.Bookings;
   const res = {};
@@ -15,18 +19,17 @@ async function checkConflict(booking) {
       new Date(endDate).getTime(),
     ];
     if (
-      bookings[i].id !== booking.id &&
-      (start === end ||
-        (min >= start && min <= end) ||
-        (max >= start && max <= end))
+      start === end ||
+      (min >= start && min <= end) ||
+      (max >= start && max <= end)
     ) {
       res.startDate = "Start date conflicts with an existing booking";
       res.endDate = "End date conflicts with an existing booking";
     }
-    if (bookings[i].id !== booking.id && start >= min && start <= max) {
+    if (start >= min && start <= max) {
       res.startDate = "Start date conflicts with an existing booking";
     }
-    if (bookings[i].id !== booking.id && end >= min && end <= max) {
+    if (end >= min && end <= max) {
       res.endDate = "End date conflicts with an existing booking";
     }
   }
