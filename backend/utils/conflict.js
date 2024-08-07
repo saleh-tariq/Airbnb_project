@@ -13,6 +13,10 @@ async function checkConflict(booking) {
   //                    ^^^^^^^^ === bookings
 
   const res = {};
+  if (new Date(startDate).getDay() === new Date(endDate).getDay()) {
+    res.endDate = "endDate cannot be on or before startDate";
+    res.status = 400;
+  }
   for (let i = 0; i < bookings.length; i++) {
     if (bookings[i].id !== booking.id) {
       const [min, max, start, end] = [
@@ -21,11 +25,7 @@ async function checkConflict(booking) {
         new Date(startDate).getTime(),
         new Date(endDate).getTime(),
       ];
-      if (
-        start === end ||
-        (min >= start && min <= end) ||
-        (max >= start && max <= end)
-      ) {
+      if ((min >= start && min <= end) || (max >= start && max <= end)) {
         res.startDate = "Start date conflicts with an existing booking";
         res.endDate = "End date conflicts with an existing booking";
       }
@@ -39,4 +39,5 @@ async function checkConflict(booking) {
   }
   return res.startDate || res.endDate ? res : false;
 }
+
 module.exports = checkConflict;

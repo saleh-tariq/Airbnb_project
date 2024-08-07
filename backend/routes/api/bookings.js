@@ -70,8 +70,9 @@ router.put("/:bookingId", requireAuth, async (req, res, next) => {
       const err = new Error(
         "Sorry, this spot is already booked for the specified dates"
       );
+      err.status = isConflicting.status || 403;
+      delete isConflicting.status;
       err.errors = isConflicting;
-      err.status = 403;
       return next(err);
     }
     toEdit.set({ startDate, endDate });

@@ -351,10 +351,13 @@ router.get("/", async (req, res, next) => {
   const err = new Error("Bad Request");
   err.status = 400;
   err.errors = {};
-  if (page && page < 1) {
+  if (isNaN(Number(page))) page = 0;
+  if (isNaN(Number(size))) size = 0;
+
+  if (page < 1) {
     err.errors.page = "Page must be greater than or equal to 1";
   }
-  if (size && (size < 1 || size > 20)) {
+  if (size < 1 || size > 20) {
     err.errors.size = "Size must be between 1 and 20";
   }
   if (maxLat && (isNaN(Number(maxLat)) || maxLat < -90 || maxLat > 90)) {
@@ -377,7 +380,7 @@ router.get("/", async (req, res, next) => {
   }
 
   if (maxPrice) {
-    if (maxPrice < 0) {
+    if (isNaN(Number(maxPrice)) || maxPrice < 0) {
       err.errors.maxPrice = "Maximum price must be greater than or equal to 0";
     }
     if (!where.price) {
@@ -386,7 +389,7 @@ router.get("/", async (req, res, next) => {
     where.price[Op.lt] = maxPrice;
   }
   if (minPrice || minPrice === 0) {
-    if (minPrice < 0) {
+    if (isNaN(Number(minPrice)) || minPrice < 0) {
       err.errors.minPrice = "Minimum price must be greater than or equal to 0";
     }
     if (!where.price) {
