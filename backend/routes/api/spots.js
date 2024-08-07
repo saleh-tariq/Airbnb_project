@@ -351,6 +351,14 @@ router.get("/", async (req, res, next) => {
   const err = new Error("Bad Request");
   err.status = 400;
   err.errors = {};
+
+  if (page === undefined) {
+    page = 1;
+  }
+  if (size === undefined) {
+    size = 20;
+  }
+
   if (isNaN(Number(page))) page = 0;
   if (isNaN(Number(size))) size = 0;
 
@@ -371,12 +379,6 @@ router.get("/", async (req, res, next) => {
   }
   if (minLng && (isNaN(Number(minLng)) || minLng < -180 || minLng > 180)) {
     err.errors.minLng = "Minimum longitude is invalid";
-  }
-  if (!page) {
-    page = 1;
-  }
-  if (!size) {
-    size = 20;
   }
 
   if (maxPrice) {
