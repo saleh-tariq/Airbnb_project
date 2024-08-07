@@ -16,6 +16,7 @@ async function checkConflict(booking) {
   if (new Date(startDate).getDay() === new Date(endDate).getDay()) {
     res.endDate = "endDate cannot be on or before startDate";
     res.status = 400;
+    return res;
   }
   for (let i = 0; i < bookings.length; i++) {
     if (bookings[i].id !== booking.id) {
