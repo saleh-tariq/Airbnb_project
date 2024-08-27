@@ -1,11 +1,11 @@
 import { csrfFetch } from "./csrf";
 
-const ADD_SPOTS = "spots/getSpots";
+const ADD_SPOT = "spots/addSpot";
 
-const addSpots = (spots) => {
+const addSpot = (spot) => {
   return {
-    type: ADD_SPOTS,
-    payload: spots,
+    type: ADD_SPOT,
+    payload: spot,
   };
 };
 
@@ -13,17 +13,17 @@ export const refreshSpots = () => async (dispatch) => {
   const response = await fetch("/api/spots");
   if (response.ok) {
     const data = await response.json();
-    dispatch(addSpots(data.Spots));
+    data.Spots.forEach((s) => dispatch(addSpot(s)));
   }
   return response;
 };
 
-const initialState = [];
+const initialState = {};
 
 const spotReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_SPOTS:
-      return [...state, action.payload];
+    case ADD_SPOT:
+      return { ...state, [action.payload.id]: action.payload };
     default:
       return state;
   }

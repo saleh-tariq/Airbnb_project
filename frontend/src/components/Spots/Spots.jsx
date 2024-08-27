@@ -1,18 +1,33 @@
 import { useDispatch, useSelector } from "react-redux";
 import * as spotActions from "../../store/spots";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Spots() {
   const dispatch = useDispatch();
-  //   dispatch(spotActions.refreshSpots());
+  useEffect(() => {
+    dispatch(spotActions.refreshSpots());
+  }, []);
 
-  //   const spots = useSelector((state) => state.spots);
-  console.log(spots);
+  const handleClick = useNavigate();
+
+  const spots = Object.values(useSelector((state) => state.spots));
+  console.log(spots[1]);
+
   return (
     <>
-      {/* {spots.map((s) => (
-        <h1>{s.name}</h1>
-      ))} */}
+      {spots.map((s) => (
+        <div onClick={() => handleClick("/spots/" + s.id)}>
+          <img src={s.previewImage} />
+          <h1>{s.address}</h1>
+          <p>{s.avgStarRating || "New"}</p>
+          <p>{s.city + ", " + s.state}</p>
+          <span>
+            <p>{"$" + s.price}</p>
+            <p>night</p>
+          </span>
+        </div>
+      ))}
     </>
   );
 }
