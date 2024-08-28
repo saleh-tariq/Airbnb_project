@@ -7,7 +7,7 @@ function Spots() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(spotActions.refreshSpots());
-  }, []);
+  }, [dispatch]);
 
   const handleClick = useNavigate();
 
@@ -16,7 +16,7 @@ function Spots() {
   return (
     <>
       {spots.map((s) => (
-        <div onClick={() => handleClick("/spots/" + s.id)}>
+        <div key={s.id} onClick={() => handleClick("/spots/" + s.id)}>
           <img src={s.previewImage} />
           <h1>{s.address}</h1>
           <p>{s.avgStarRating || "New"}</p>

@@ -10,7 +10,7 @@ const addSpot = (spot) => {
 };
 
 export const refreshSpots = () => async (dispatch) => {
-  const response = await fetch("/api/spots");
+  const response = await csrfFetch("/api/spots");
   if (response.ok) {
     const data = await response.json();
     data.Spots.forEach((s) => dispatch(addSpot(s)));
