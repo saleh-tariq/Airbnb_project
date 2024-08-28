@@ -12,7 +12,6 @@ function Spots() {
   const handleClick = useNavigate();
 
   const spots = Object.values(useSelector((state) => state.spots));
-  console.log(spots[1]);
 
   return (
     <>
