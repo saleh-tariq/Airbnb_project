@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as spotActions from "../../store/spots";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import "./SpotById.css";
 
 function Spots() {
   const { spotId } = useParams();
@@ -28,23 +29,27 @@ function Spots() {
   const spotImages = spot.SpotImages;
 
   return (
-    <>
-      <div>
+    <div className="spot-details">
+      <div className="top-details">
         <h2>{name}</h2>
         <p>Location: {`${city}, ${state}, ${country}`}</p>
       </div>
       <div>
         <img src={previewImage}></img>
-        {spotImages
-          ? spotImages.map((img) =>
-              !img.preview ? <img src={img.url} /> : <></>
-            )
-          : null}
+        <div className="non-preview-images">
+          {spotImages
+            ? spotImages.map((img) =>
+                !img.preview ? <img src={img.url} /> : <></>
+              )
+            : null}
+        </div>
       </div>
-      <div>
-        <p>Hosted by: {`${lastName}, ${firstName}`}</p>
-        <p>{description}</p>
-        <div>
+      <div className="details-details">
+        <div className="description">
+          <p>Hosted by: {`${lastName}, ${firstName}`}</p>
+          <p>{description}</p>
+        </div>
+        <div className="reserve-area">
           <span>
             <p>{`$${price}`}</p>
             <p>night</p>
@@ -53,7 +58,7 @@ function Spots() {
           <button>Reserve</button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
