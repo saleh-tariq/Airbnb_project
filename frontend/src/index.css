@@ -15,6 +15,10 @@ button {
   background-color: steelblue;
 }
 
+button:disabled {
+  opacity: 60%;
+}
+
 button * {
   color: rgb(33, 35, 40);
   background-color: steelblue;

@@ -1,0 +1,30 @@
+.yellow {
+  color: yellow;
+}
+.star:hover {
+  cursor: pointer;
+}
+
+.create-review-modal {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-review-modal > * {
+  width: 90%;
+  text-align: center;
+}
+.create-review-stars {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.create-review-input {
+  border: 1px solid steelblue;
+  width: 90%;
+  height: 200px;
+}
