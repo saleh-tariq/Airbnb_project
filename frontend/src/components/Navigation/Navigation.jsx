@@ -11,7 +11,9 @@ function Navigation({ isLoaded }) {
       <NavLink to="/">WindBreadNButter</NavLink>
       {isLoaded && (
         <div className="nav-bar-profile">
-          <NavLink to="/spots/new">Create a New Spot +</NavLink>
+          {sessionUser ? (
+            <NavLink to="/spots/new">Create a New Spot +</NavLink>
+          ) : null}
           <ProfileButton user={sessionUser} />
         </div>
       )}
