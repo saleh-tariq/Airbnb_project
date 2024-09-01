@@ -1,1 +1,10 @@
 /* TODO: Add sitewide styles */
+* {
+  background-color: rgb(33, 35, 40);
+  color: antiquewhite;
+}
+
+body {
+  display: grid;
+  grid-template-columns: 1fr, 4fr, 2fr, 4fr;
+}

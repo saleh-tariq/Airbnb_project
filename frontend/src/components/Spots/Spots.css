@@ -1,0 +1,54 @@
+.spots {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 15px;
+  width: 90%;
+  padding: 20px 5%;
+}
+
+.spot * {
+}
+.spot {
+  height: fit-content;
+  outline: 1px solid antiquewhite;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.spot:hover {
+  scale: 99%;
+  outline: 2px solid steelblue;
+  transition: 0.1s;
+}
+
+.spot > img {
+  aspect-ratio: 1;
+  width: 100%;
+}
+
+.spot > img {
+  width: 100%;
+}
+
+.spot h2 {
+  font-size: 20px;
+  margin: 0px;
+}
+
+.spot-address-line {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 5px;
+}
+
+.spot-price-night p {
+  font-size: 15px;
+  opacity: 60%;
+  margin: 0px;
+}
+.spot-price-night {
+  display: flex;
+  padding: 5px 5px;
+}

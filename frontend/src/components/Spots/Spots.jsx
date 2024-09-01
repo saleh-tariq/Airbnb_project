@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as spotActions from "../../store/spots";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Spots.css";
 
 function Spots() {
   const dispatch = useDispatch();
@@ -14,20 +15,27 @@ function Spots() {
   const spots = Object.values(useSelector((state) => state.spots));
 
   return (
-    <>
+    <div className="spots">
       {spots.map((s) => (
-        <div key={s.id} onClick={() => handleClick("/spots/" + s.id)}>
+        <div
+          key={s.id}
+          className="spot"
+          onClick={() => handleClick("/spots/" + s.id)}
+        >
           <img src={s.previewImage} />
-          <h1>{s.address}</h1>
-          <p>★ {s.avgStarRating || "New"}</p>
-          <p>{s.city + ", " + s.state}</p>
-          <span>
-            <p>{"$" + s.price}</p>
-            <p>night</p>
-          </span>
+          <div className="spot-text">
+            <span className="spot-address-line">
+              <h2>{s.city + ", " + s.state}</h2>
+              <p className="spot-rating">★ {s.avgStarRating || "New"}</p>
+            </span>
+            <span className="spot-price-night">
+              <p>{"$" + s.price}</p>
+              <p>/night</p>
+            </span>
+          </div>
         </div>
       ))}
-    </>
+    </div>
   );
 }
 

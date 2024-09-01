@@ -11,7 +11,7 @@ instead of the `Navigation` component.
 ## `Navigation`
 
 Reminder: the `Navigation` component lives in the
-__frontend/src/components/Navigation/Navigation.js__ file.
+**frontend/src/components/Navigation/Navigation.js** file.
 
 First, you need the application to render the profile button and dropdown menu
 regardless of whether or not the user is logged in. Currently, this logic lies in the
@@ -25,13 +25,13 @@ Here's an example of what the `Navigation` component could look like now:
 ```jsx
 // frontend/src/components/Navigation/Navigation.jsx
 
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import ProfileButton from './ProfileButton';
-import './Navigation.css';
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import ProfileButton from "./ProfileButton";
+import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
-  const sessionUser = useSelector(state => state.session.user);
+  const sessionUser = useSelector((state) => state.session.user);
 
   return (
     <ul>
@@ -53,16 +53,16 @@ export default Navigation;
 ## `ProfileButton`
 
 Reminder: the `ProfileButton` component lives in the
-__frontend/src/components/Navigation/ProfileButton.jsx__ file.
+**frontend/src/components/Navigation/ProfileButton.jsx** file.
 
 Now, update the `ProfileButton` component to render a different list of dropdown
 menus depending on whether or not there is a session user. If there is a session
 user, show the same user session information and the logout button. If there is
 **no** session user, show two menu options:
 
-* `OpenModalButton` that renders a button text of `Log In` and opens the
+- `OpenModalButton` that renders a button text of `Log In` and opens the
   `LoginFormModal` when clicked
-* another `OpenModalButton` that renders a button text of `Sign Up` and opens
+- another `OpenModalButton` that renders a button text of `Sign Up` and opens
   the `SignupFormModal` when clicked
 
 Here's an example of what the `ProfileButton` component could look like now:
@@ -70,13 +70,13 @@ Here's an example of what the `ProfileButton` component could look like now:
 ```jsx
 // frontend/src/components/Navigation/ProfileButton.jsx
 
-import { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { FaUserCircle } from 'react-icons/fa';
-import * as sessionActions from '../../store/session';
-import OpenModalButton from '../OpenModalButton';
-import LoginFormModal from '../LoginFormModal';
-import SignupFormModal from '../SignupFormModal';
+import { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { FaUserCircle } from "react-icons/fa";
+import * as sessionActions from "../../store/session";
+import OpenModalButton from "../OpenModalButton";
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -97,7 +97,7 @@ function ProfileButton({ user }) {
       }
     };
 
-    document.addEventListener('click', closeMenu);
+    document.addEventListener("click", closeMenu);
 
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
@@ -118,7 +118,9 @@ function ProfileButton({ user }) {
         {user ? (
           <>
             <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
+            <li>
+              {user.firstName} {user.lastName}
+            </li>
             <li>{user.email}</li>
             <li>
               <button onClick={logout}>Log Out</button>
@@ -180,13 +182,13 @@ Here's an example of what the `ProfileButton` component could look like now:
 ```jsx
 // frontend/src/components/Navigation/ProfileButton.jsx
 
-import { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { FaUserCircle } from 'react-icons/fa';
-import * as sessionActions from '../../store/session';
-import OpenModalButton from '../OpenModalButton';
-import LoginFormModal from '../LoginFormModal';
-import SignupFormModal from '../SignupFormModal';
+import { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { FaUserCircle } from "react-icons/fa";
+import * as sessionActions from "../../store/session";
+import OpenModalButton from "../OpenModalButton";
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -207,7 +209,7 @@ function ProfileButton({ user }) {
       }
     };
 
-    document.addEventListener('click', closeMenu);
+    document.addEventListener("click", closeMenu);
 
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
@@ -231,7 +233,9 @@ function ProfileButton({ user }) {
         {user ? (
           <>
             <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
+            <li>
+              {user.firstName} {user.lastName}
+            </li>
             <li>{user.email}</li>
             <li>
               <button onClick={logout}>Log Out</button>
@@ -274,29 +278,29 @@ any other dropdown menu list item, then you can create another generic component
 much like the `OpenModalButton` component that will use an `li` element instead
 of a `button` element to trigger the opening of the modals.
 
-Inside the __frontend/src/components/Navigation__ folder, create a file called
-__OpenModalMenuItem.jsx__. Inside of that file, create and export as default a
+Inside the **frontend/src/components/Navigation** folder, create a file called
+**OpenModalMenuItem.jsx**. Inside of that file, create and export as default a
 function component called `OpenModalMenuItem`.
 
 The `OpenModalMenuItem` component code should look **exactly** like the
 `OpenModalButton` component code except:
 
-* change the `buttonText` prop to `itemText`
-* change the `onButtonClick` prop to `onItemClick`
+- change the `buttonText` prop to `itemText`
+- change the `onButtonClick` prop to `onItemClick`
 
 Here's an example of what the `OpenModalMenuItem` component could look like:
 
 ```jsx
 // frontend/src/components/Navigation/OpenModalMenuItem.jsx
 
-import React from 'react';
-import { useModal } from '../../context/Modal';
+import React from "react";
+import { useModal } from "../../context/Modal";
 
 function OpenModalMenuItem({
   modalComponent, // component to render inside the modal
   itemText, // text of the menu item that opens the modal
   onItemClick, // optional: callback function that will be called once the menu item that opens the modal is clicked
-  onModalClose // optional: callback function that will be called once the modal is closed
+  onModalClose, // optional: callback function that will be called once the modal is closed
 }) {
   const { setModalContent, setOnModalClose } = useModal();
 
@@ -306,9 +310,7 @@ function OpenModalMenuItem({
     if (typeof onItemClick === "function") onItemClick();
   };
 
-  return (
-    <li onClick={onClick}>{itemText}</li>
-  );
+  return <li onClick={onClick}>{itemText}</li>;
 }
 
 export default OpenModalMenuItem;
@@ -321,13 +323,13 @@ and `SignupFormModal`.
 Here's an example of what the `ProfileButton` component could look like now:
 
 ```jsx
-import { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { FaUserCircle } from 'react-icons/fa';
-import * as sessionActions from '../../store/session';
-import OpenModalMenuItem from './OpenModalMenuItem';
-import LoginFormModal from '../LoginFormModal';
-import SignupFormModal from '../SignupFormModal';
+import { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { FaUserCircle } from "react-icons/fa";
+import * as sessionActions from "../../store/session";
+import OpenModalMenuItem from "./OpenModalMenuItem";
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -348,7 +350,7 @@ function ProfileButton({ user }) {
       }
     };
 
-    document.addEventListener('click', closeMenu);
+    document.addEventListener("click", closeMenu);
 
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
@@ -372,7 +374,9 @@ function ProfileButton({ user }) {
         {user ? (
           <>
             <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
+            <li>
+              {user.firstName} {user.lastName}
+            </li>
             <li>{user.email}</li>
             <li>
               <button onClick={logout}>Log Out</button>
