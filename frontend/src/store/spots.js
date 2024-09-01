@@ -1,5 +1,5 @@
 import { csrfFetch } from "./csrf";
-
+// imageOptions
 const ADD_SPOT = "spots/addSpot";
 const ADD_DETAILS = "spots/addDetails";
 const ADD_REVIEWS = "spots/addReviews";
@@ -59,8 +59,36 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
       },
       { id: spotId, Reviews: {} }
     );
-    console.log(res);
     dispatch(addReviews(res));
+  }
+  return response;
+};
+
+export const makeSpot = (spot, images) => async () => {
+  const options = {
+    method: "POST",
+    body: JSON.stringify(spot),
+  };
+  const response = await csrfFetch("/api/spots", options);
+  let allG = true;
+  if (response.ok) {
+    for (let i = 0; i < images.length; i++) {
+      const [key, value] = Object.entries(images);
+      const imageOptions = {
+        method: "POST",
+        body: JSON.stringify({ url: value, preview: key === "prev" }),
+      };
+      (await csrfFetch(`api/spots/${response.id}/images`, imageOptions)).ok
+        ? null
+        : (allG = false);
+    }
+    if (allG) {
+      return refreshSpots();
+    } else {
+      console.log("\n\nBIG UH OH \nBIG UH OH \nBIG UH OH \n\n");
+    }
+  } else {
+    console.log(await response.json());
   }
   return response;
 };
