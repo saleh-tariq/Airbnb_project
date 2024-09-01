@@ -9,7 +9,7 @@ function Spots() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(spotActions.getSpotDetails(spotId));
-  }, [dispatch]);
+  }, [dispatch, spotId]);
 
   const spot = useSelector((state) => state.spots)[spotId];
   const {
@@ -42,8 +42,8 @@ function Spots() {
             <ul>
               {spotImages.map((img) =>
                 !img.preview ? (
-                  <li>
-                    <img key={img.id} src={img.url} />
+                  <li key={img.id}>
+                    <img src={img.url} />
                   </li>
                 ) : null
               )}

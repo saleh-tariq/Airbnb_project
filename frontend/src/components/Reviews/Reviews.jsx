@@ -23,7 +23,7 @@ function Reviews() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(spotActions.getSpotReviews(spotId));
-  }, [dispatch]);
+  }, [dispatch, spotId]);
 
   const spot = useSelector((state) => state.spots)[spotId];
   const { avgStarRating, numReviews } = spot;
