@@ -90,9 +90,7 @@ export const makeSpot = (spot, images) => async () => {
           body: JSON.stringify({ url: value, preview: key === "prev" }),
         };
         const url = `/api/spots/${data.id}/images`;
-        const imgResponse = await csrfFetch(url, imageOptions);
-        const imgData = await imgResponse.json();
-        console.log(data.id);
+        await csrfFetch(url, imageOptions);
       }
     }
     if (allG) {
