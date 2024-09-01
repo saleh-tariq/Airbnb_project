@@ -1,22 +1,35 @@
 import { useState } from "react";
 import "./CreateReview.css";
-import { useParams } from "react-router-dom";
-function CreateReview() {
-  const { spotId } = useParams();
+import * as spotActions from "../../store/spots";
+import { useDispatch } from "react-redux";
+import { useModal } from "../../context/Modal";
+
+function CreateReview({ spotId }) {
+  const { closeModal } = useModal();
   const [stars, setStars] = useState(0);
   const [starsTemp, setStarsTemp] = useState(0);
   const [textField, setTextField] = useState("");
+  const [error, setError] = useState("");
+  const dispatch = useDispatch();
   const handleClick = (e) => {
     setStars(+e.target.id);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const review = { review: textField, stars };
+    console.log(spotId);
+    const data = await dispatch(spotActions.makeReview(review, spotId));
+    if (data.message) {
+      return setError(data.message);
+    }
+    closeModal();
   };
   return (
     <div className="create-review-modal">
       <form onSubmit={handleSubmit}>
         <h2>How was your stay?</h2>
-        <input
+        {error ? <p className="error">{error}</p> : null}
+        <textarea
           type="text"
           className="create-review-input"
           onInput={(e) => setTextField(e.target.value)}

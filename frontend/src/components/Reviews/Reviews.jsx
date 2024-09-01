@@ -43,7 +43,7 @@ function Reviews() {
           : "New"}
       </h2>
       <OpenModalButton
-        modalComponent={<CreateReview />}
+        modalComponent={<CreateReview spotId={spotId} />}
         buttonText="Create a review"
       />
       {reviews.map((el) => (

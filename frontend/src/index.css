@@ -23,3 +23,7 @@ button * {
   color: rgb(33, 35, 40);
   background-color: steelblue;
 }
+
+.error {
+  color: steelblue;
+}

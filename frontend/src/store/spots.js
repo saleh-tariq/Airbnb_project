@@ -71,6 +71,21 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
   return response;
 };
 
+export const makeReview = (review, spotId) => async (dispatch) => {
+  const options = {
+    method: "POST",
+    body: JSON.stringify(review),
+  };
+  console.log(spotId);
+  const response = await csrfFetch(`/api/spots/${spotId}/reviews`, options);
+
+  if (response.ok) {
+    const data = await response.json();
+    console.log(data);
+    dispatch(getSpotReviews(data.spotId));
+  } else return await response.json();
+};
+
 export const makeSpot = (spot, images) => async (dispatch) => {
   const options = {
     method: "POST",
