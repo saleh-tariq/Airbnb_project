@@ -1,10 +1,8 @@
-import { act } from "react";
 import { csrfFetch } from "./csrf";
-
+// imageOptions
 const ADD_SPOT = "spots/addSpot";
 const ADD_DETAILS = "spots/addDetails";
 const ADD_REVIEWS = "spots/addReviews";
-const CREATE_SPOT = "spots/createSpot";
 
 const addSpot = (spot) => {
   return {
@@ -23,13 +21,6 @@ const addDetails = (spot) => {
 const addReviews = (spot) => {
   return {
     type: ADD_REVIEWS,
-    payload: spot,
-  };
-};
-
-const createSpot = (spot) => {
-  return {
-    type: CREATE_SPOT,
     payload: spot,
   };
 };
@@ -73,7 +64,7 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
   return response;
 };
 
-export const makeSpot = (spot, images) => async (dispatch) => {
+export const makeSpot = (spot, images) => async () => {
   const options = {
     method: "POST",
     body: JSON.stringify(spot),
@@ -82,12 +73,12 @@ export const makeSpot = (spot, images) => async (dispatch) => {
   let allG = true;
   if (response.ok) {
     for (let i = 0; i < images.length; i++) {
-      const [key, value] = Object.entries(img);
+      const [key, value] = Object.entries(images);
       const imageOptions = {
         method: "POST",
         body: JSON.stringify({ url: value, preview: key === "prev" }),
       };
-      (await csrfFetch(`/spots/${response.id}/images`, options)).ok
+      (await csrfFetch(`api/spots/${response.id}/images`, imageOptions)).ok
         ? null
         : (allG = false);
     }

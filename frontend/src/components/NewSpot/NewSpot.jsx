@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as spotActions from "../../store/spots";
@@ -250,8 +250,8 @@ function NewSpot() {
         <div className="create-spot-title create-spot-subsection">
           <h3>Create a title for your spot</h3>
           <p>
-            Catch guests' attention with a spot title that highlights what makes
-            your place special.
+            Catch guests&apos; attention with a spot title that highlights what
+            makes your place special.
           </p>
           <div>
             <input
