@@ -72,7 +72,7 @@ function NewSpot() {
     return invalidImages[0] ? invalidImages : false;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedErrors = {};
     if (!country) {
@@ -119,7 +119,7 @@ function NewSpot() {
       // console.log(updatedErrors);
       setErrors({ ...errors, ...updatedErrors });
     } else {
-      dispatch(
+      const newUrl = await dispatch(
         spotActions.makeSpot(
           {
             address,
@@ -135,8 +135,7 @@ function NewSpot() {
           images
         )
       );
-
-      navigate("/");
+      navigate(newUrl);
     }
   };
   return (

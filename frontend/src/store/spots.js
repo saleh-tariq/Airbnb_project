@@ -71,7 +71,7 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
   return response;
 };
 
-export const makeSpot = (spot, images) => async () => {
+export const makeSpot = (spot, images) => async (dispatch) => {
   const options = {
     method: "POST",
     body: JSON.stringify(spot),
@@ -94,7 +94,8 @@ export const makeSpot = (spot, images) => async () => {
       }
     }
     if (allG) {
-      refreshSpots();
+      dispatch(addSpot(data));
+      return `/spots/${data.id}`;
     } else {
       console.log("\n\nBIG UH OH \nBIG UH OH \nBIG UH OH \n\n");
     }
