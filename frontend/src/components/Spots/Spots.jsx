@@ -19,7 +19,7 @@ function Spots() {
         <div key={s.id} onClick={() => handleClick("/spots/" + s.id)}>
           <img src={s.previewImage} />
           <h1>{s.address}</h1>
-          <p>{s.avgStarRating || "New"}</p>
+          <p>★ {s.avgStarRating || "New"}</p>
           <p>{s.city + ", " + s.state}</p>
           <span>
             <p>{"$" + s.price}</p>

@@ -21,6 +21,7 @@ function Spots() {
     previewImage,
     price,
     avgStarRating,
+    numReviews,
   } = spot;
   const { firstName, lastName } = spot.Owner || {
     firstName: null,
@@ -39,7 +40,7 @@ function Spots() {
         <div className="non-preview-images">
           {spotImages
             ? spotImages.map((img) =>
-                !img.preview ? <img src={img.url} /> : <></>
+                !img.preview ? <img key={img.id} src={img.url} /> : <></>
               )
             : null}
         </div>
@@ -54,7 +55,9 @@ function Spots() {
             <p>{`$${price}`}</p>
             <p>night</p>
           </span>
-          <p>{avgStarRating}</p>
+          <p>
+            ★ {avgStarRating} | {numReviews}
+          </p>
           <button>Reserve</button>
         </div>
       </div>
