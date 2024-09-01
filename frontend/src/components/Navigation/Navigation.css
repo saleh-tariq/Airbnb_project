@@ -1,3 +1,36 @@
+.nav-bar {
+  height: 80px;
+  border-bottom: 1px solid white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 5%;
+}
+
+.nav-bar > * {
+  font-size: 25px;
+}
+
+.nav-bar a {
+  text-decoration: none;
+}
+
+.profile-dropdown {
+  position: fixed;
+  top: 80px;
+  right: 5%;
+  border: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  z-index: 1000;
+}
 .hidden {
   display: none;
+}
+
+.nav-bar-profile {
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }

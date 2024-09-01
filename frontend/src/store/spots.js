@@ -4,6 +4,7 @@ import { csrfFetch } from "./csrf";
 const ADD_SPOT = "spots/addSpot";
 const ADD_DETAILS = "spots/addDetails";
 const ADD_REVIEWS = "spots/addReviews";
+const CREATE_SPOT = "spots/createSpot";
 
 const addSpot = (spot) => {
   return {
@@ -22,6 +23,13 @@ const addDetails = (spot) => {
 const addReviews = (spot) => {
   return {
     type: ADD_REVIEWS,
+    payload: spot,
+  };
+};
+
+const createSpot = (spot) => {
+  return {
+    type: CREATE_SPOT,
     payload: spot,
   };
 };
@@ -60,8 +68,36 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
       },
       { id: spotId, Reviews: {} }
     );
-    console.log(res);
     dispatch(addReviews(res));
+  }
+  return response;
+};
+
+export const makeSpot = (spot, images) => async (dispatch) => {
+  const options = {
+    method: "POST",
+    body: JSON.stringify(spot),
+  };
+  const response = await csrfFetch("/api/spots", options);
+  let allG = true;
+  if (response.ok) {
+    for (let i = 0; i < images.length; i++) {
+      const [key, value] = Object.entries(img);
+      const imageOptions = {
+        method: "POST",
+        body: JSON.stringify({ url: value, preview: key === "prev" }),
+      };
+      (await csrfFetch(`/spots/${response.id}/images`, options)).ok
+        ? null
+        : (allG = false);
+    }
+    if (allG) {
+      return refreshSpots();
+    } else {
+      console.log("\n\nBIG UH OH \nBIG UH OH \nBIG UH OH \n\n");
+    }
+  } else {
+    console.log(await response.json());
   }
   return response;
 };
