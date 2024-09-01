@@ -8,3 +8,8 @@ body {
   display: grid;
   grid-template-columns: 1fr, 4fr, 2fr, 4fr;
 }
+
+button:hover * {
+  background-color: steelblue;
+  transition: 0.1s;
+}
