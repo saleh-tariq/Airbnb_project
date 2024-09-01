@@ -62,7 +62,10 @@ function Spots() {
             <p>night</p>
           </span>
           <p>
-            ★ {avgStarRating ? avgStarRating.toFixed(1) : "New"} | {numReviews}
+            ★{" "}
+            {avgStarRating
+              ? avgStarRating.toFixed(1) + " | " + { numReviews }
+              : "New"}
           </p>
           <button>Reserve</button>
         </div>
