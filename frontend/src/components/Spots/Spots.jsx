@@ -22,9 +22,14 @@ function Spots() {
           className="spot"
           onClick={() => handleClick("/spots/" + s.id)}
         >
-          <div className="spot-img-container">
-            <p className="spot-hover-disc">{s.description}</p>
-            <img src={s.previewImage} />
+          <div
+            className="spot-img-container"
+            style={{ backgroundImage: `url(${s.previewImage})` }}
+          >
+            <div className="spot-img-container-fore">
+              <p className="spot-hover-disc">{s.description}</p>
+            </div>
+            {/* <img src={s.previewImage} /> */}
           </div>
           <div className="spot-text">
             <span className="spot-address-line">
