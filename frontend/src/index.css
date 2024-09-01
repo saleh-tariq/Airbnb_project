@@ -9,7 +9,12 @@ body {
   grid-template-columns: 1fr, 4fr, 2fr, 4fr;
 }
 
-button:hover * {
+button {
+  color: rgb(33, 35, 40);
   background-color: steelblue;
-  transition: 0.1s;
+}
+
+button * {
+  color: rgb(33, 35, 40);
+  background-color: steelblue;
 }

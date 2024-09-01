@@ -22,8 +22,7 @@
 }
 
 .spot:hover .spot-img-container-fore {
-  backdrop-filter: blur(5px) brightness(60%);
-  /* filter: brightness(60%); */
+  backdrop-filter: blur(4px) brightness(70%) grayscale(70%);
   transition: 0.1s;
 }
 
@@ -65,11 +64,6 @@
   opacity: 0;
 }
 
-.spot img {
-  aspect-ratio: 1;
-  width: 100%;
-}
-
 .spot h2 {
   font-size: 20px;
   margin: 0px;
@@ -88,6 +82,12 @@
   opacity: 60%;
   margin: 0px;
 }
+#spot-price {
+  font-weight: bolder;
+  opacity: 100%;
+  margin-right: 3px;
+}
+
 .spot-price-night {
   display: flex;
   padding: 5px 5px;

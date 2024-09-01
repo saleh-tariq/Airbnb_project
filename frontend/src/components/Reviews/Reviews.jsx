@@ -31,7 +31,8 @@ function Reviews() {
   return (
     <>
       <h2>
-        ★ {avgStarRating} | {numReviews} review{numReviews > 1 && "s"}
+        ★ {avgStarRating ? avgStarRating.toFixed(1) : "New"} | {numReviews}{" "}
+        review{numReviews > 1 && "s"}
       </h2>
       {reviews.map((el) => (
         <div key={el.id} className="review">

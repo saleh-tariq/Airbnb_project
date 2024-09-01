@@ -38,11 +38,17 @@ function Spots() {
       <div>
         <img src={previewImage}></img>
         <div className="non-preview-images">
-          {spotImages
-            ? spotImages.map((img) =>
-                !img.preview ? <img key={img.id} src={img.url} /> : <></>
-              )
-            : null}
+          {spotImages ? (
+            <ul>
+              {spotImages.map((img) =>
+                !img.preview ? (
+                  <li>
+                    <img key={img.id} src={img.url} />
+                  </li>
+                ) : null
+              )}
+            </ul>
+          ) : null}
         </div>
       </div>
       <div className="details-details">
@@ -56,7 +62,7 @@ function Spots() {
             <p>night</p>
           </span>
           <p>
-            ★ {avgStarRating} | {numReviews}
+            ★ {avgStarRating ? avgStarRating.toFixed(1) : "New"} | {numReviews}
           </p>
           <button>Reserve</button>
         </div>

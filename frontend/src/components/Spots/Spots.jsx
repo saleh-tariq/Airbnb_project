@@ -29,16 +29,17 @@ function Spots() {
             <div className="spot-img-container-fore">
               <p className="spot-hover-disc">{s.description}</p>
             </div>
-            {/* <img src={s.previewImage} /> */}
           </div>
           <div className="spot-text">
             <span className="spot-address-line">
               <h2>{s.city + ", " + s.state}</h2>
-              <p className="spot-rating">★ {s.avgStarRating || "New"}</p>
+              <p className="spot-rating">
+                ★ {s.avgStarRating ? s.avgStarRating.toFixed(1) : "New"}
+              </p>
             </span>
             <span className="spot-price-night">
-              <p>{"$" + s.price}</p>
-              <p>/night</p>
+              <p id="spot-price">{"$" + s.price.toFixed(2)}</p>
+              <p>night</p>
             </span>
           </div>
         </div>
