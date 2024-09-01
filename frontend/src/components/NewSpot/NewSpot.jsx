@@ -55,13 +55,14 @@ function NewSpot() {
 
     Object.entries(sample).forEach((e) => {
       const [key, value] = e;
+      // console.log("key:", key, "\nvalue:", value);
       const processedValue = value.split(".")[value.split(".").length - 1];
+      // console.log(processedValue);
       if (
         processedValue !== "jpeg" &&
         processedValue !== "jpg" &&
         processedValue !== "png"
       ) {
-        console.log(value.split("."));
         invalidImages.push({
           [key]: "Image URL must end in .png, .jpg, or .jpeg",
         });
@@ -114,7 +115,8 @@ function NewSpot() {
     }
 
     if (Object.values(updatedErrors)[0]) {
-      console.log(updatedErrors);
+      // console.log(images);
+      // console.log(updatedErrors);
       setErrors({ ...errors, ...updatedErrors });
     } else {
       dispatch(

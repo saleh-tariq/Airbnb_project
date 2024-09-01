@@ -3,7 +3,13 @@ import { csrfFetch } from "./csrf";
 const ADD_SPOT = "spots/addSpot";
 const ADD_DETAILS = "spots/addDetails";
 const ADD_REVIEWS = "spots/addReviews";
+const CLEAR_SPOTS = "spots/clearSpots";
 
+const clearSpots = () => {
+  return {
+    type: CLEAR_SPOTS,
+  };
+};
 const addSpot = (spot) => {
   return {
     type: ADD_SPOT,
@@ -27,6 +33,7 @@ const addReviews = (spot) => {
 
 export const refreshSpots = () => async (dispatch) => {
   const response = await csrfFetch("/api/spots");
+  dispatch(clearSpots());
   if (response.ok) {
     const data = await response.json();
     data.Spots.forEach((s) => dispatch(addSpot(s)));
@@ -72,18 +79,24 @@ export const makeSpot = (spot, images) => async () => {
   const response = await csrfFetch("/api/spots", options);
   let allG = true;
   if (response.ok) {
-    for (let i = 0; i < images.length; i++) {
-      const [key, value] = Object.entries(images);
-      const imageOptions = {
-        method: "POST",
-        body: JSON.stringify({ url: value, preview: key === "prev" }),
-      };
-      (await csrfFetch(`api/spots/${response.id}/images`, imageOptions)).ok
-        ? null
-        : (allG = false);
+    const data = await response.json();
+    console.log(data);
+    const imgArray = Object.entries(images);
+    for (let i = 0; i < imgArray.length; i++) {
+      const [key, value] = imgArray[i];
+      if (value) {
+        const imageOptions = {
+          method: "POST",
+          body: JSON.stringify({ url: value, preview: key === "prev" }),
+        };
+        const url = `/api/spots/${data.id}/images`;
+        const imgResponse = await csrfFetch(url, imageOptions);
+        const imgData = await imgResponse.json();
+        console.log(data.id);
+      }
     }
     if (allG) {
-      return refreshSpots();
+      refreshSpots();
     } else {
       console.log("\n\nBIG UH OH \nBIG UH OH \nBIG UH OH \n\n");
     }
@@ -107,6 +120,8 @@ const spotReducer = (state = initialState, action) => {
     case ADD_REVIEWS:
       state[action.payload.id]["Reviews"] = action.payload["Reviews"];
       return { ...state };
+    case CLEAR_SPOTS:
+      return {};
     default:
       return state;
   }
