@@ -60,7 +60,7 @@ function Spots({ current }) {
               </div>
               <div className="current-spot-buttons">
                 <button
-                  onClick={(e) => {
+                  onClick={() => {
                     handleUpdateClick(`/spots/${s.id}/edit`);
                   }}
                 >
