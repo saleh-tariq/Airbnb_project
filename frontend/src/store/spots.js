@@ -4,14 +4,6 @@ const ADD_SPOT = "spots/addSpot";
 const ADD_DETAILS = "spots/addDetails";
 const ADD_REVIEWS = "spots/addReviews";
 const CLEAR_SPOTS = "spots/clearSpots";
-const CLEAN_SPOT = "spots/cleanSpot";
-
-const cleanSpot = (spot) => {
-  return {
-    type: CLEAN_SPOT,
-    payload: spot,
-  };
-};
 
 const clearSpots = () => {
   return {

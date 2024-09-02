@@ -7,7 +7,7 @@ import OpenModalButton from "../OpenModalButton";
 import CreateReview from "./CreateReview";
 import ConfirmDelete from "../ConfirmDelete/ConfirmDelete";
 
-function Reviews({}) {
+function Reviews() {
   const { spotId } = useParams();
   const sessionUser = useSelector((state) => state.session.user);
 
