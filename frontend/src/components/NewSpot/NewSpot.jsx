@@ -55,33 +55,35 @@ function NewSpot({ update }) {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    setCountry(spot.country);
-    setAddress(spot.address);
-    setCity(spot.city);
-    setState(spot.state);
-    setLatitude(spot.lat);
-    setLongitude(spot.lng);
-    setDescription(spot.description);
-    setTitle(spot.name);
-    setPrice(spot.price);
-    setImages({ prev: spot.previewImage });
-    const revisedImages = spot.SpotImages
-      ? spot.SpotImages.reduce((acc, el) => {
-          if (!el.preview) {
-            acc.push(el.url);
-          }
-          return acc;
-        }, [])
-      : [];
-    spot.SpotImages &&
-      revisedImages.forEach((img, id) => {
-        setImages({
-          ...(() => {
-            return images;
-          })(),
-          [id + 1]: img,
+    if (spot) {
+      setCountry(spot.country);
+      setAddress(spot.address);
+      setCity(spot.city);
+      setState(spot.state);
+      setLatitude(spot.lat);
+      setLongitude(spot.lng);
+      setDescription(spot.description);
+      setTitle(spot.name);
+      setPrice(spot.price);
+      setImages({ prev: spot.previewImage });
+      const revisedImages = spot.SpotImages
+        ? spot.SpotImages.reduce((acc, el) => {
+            if (!el.preview) {
+              acc.push(el.url);
+            }
+            return acc;
+          }, [])
+        : [];
+      spot.SpotImages &&
+        revisedImages.forEach((img, id) => {
+          setImages({
+            ...(() => {
+              return images;
+            })(),
+            [id + 1]: img,
+          });
         });
-      });
+    }
   }, [
     spot,
     setCountry,
