@@ -17,7 +17,6 @@ function CreateReview({ spotId }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const review = { review: textField, stars };
-    console.log(spotId);
     const data = await dispatch(spotActions.makeReview(review, spotId));
     if (data.message) {
       return setError(data.message);

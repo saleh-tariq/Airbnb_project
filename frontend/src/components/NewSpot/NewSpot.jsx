@@ -47,7 +47,6 @@ function NewSpot({ update }) {
   useEffect(() => {
     if (update) {
       dispatch(spotActions.getSpotDetails(spotId));
-      console.log("UPDATED!!!!!!");
     }
   }, [dispatch, update, spotId]);
   const spots = Object.values(useSelector((state) => state.spots));

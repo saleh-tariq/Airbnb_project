@@ -5,9 +5,11 @@ import { useParams } from "react-router-dom";
 import "./Reviews.css";
 import OpenModalButton from "../OpenModalButton";
 import CreateReview from "./CreateReview";
+import ConfirmDelete from "../ConfirmDelete/ConfirmDelete";
 
-function Reviews() {
+function Reviews({}) {
   const { spotId } = useParams();
+  const sessionUser = useSelector((state) => state.session.user);
 
   const months = [
     "Jan",
@@ -24,6 +26,10 @@ function Reviews() {
     "Dec",
   ];
   const dispatch = useDispatch();
+
+  const onDelete = (id) => () => {
+    dispatch(spotActions.deleteReview(id, spotId));
+  };
 
   useEffect(() => {
     dispatch(spotActions.getSpotReviews(spotId));
@@ -55,6 +61,17 @@ function Reviews() {
             el.createdAt.split("-")[0]
           }`}</h6>
           <p>{el.review}</p>
+          {el.userId === sessionUser.id ? (
+            <OpenModalButton
+              buttonText={"delete"}
+              modalComponent={
+                <ConfirmDelete
+                  message={"Are you sure you want to delete this review?"}
+                  onDelete={onDelete(el.id)}
+                />
+              }
+            />
+          ) : null}
         </div>
       ))}
     </>

@@ -25,7 +25,7 @@ function Spots() {
     avgStarRating,
     numReviews,
   } = spot;
-  const { firstName, lastName } = spot.User || {
+  const { firstName, lastName } = spot.Owner || {
     firstName: null,
     lastName: null,
   };

@@ -4,6 +4,14 @@ const ADD_SPOT = "spots/addSpot";
 const ADD_DETAILS = "spots/addDetails";
 const ADD_REVIEWS = "spots/addReviews";
 const CLEAR_SPOTS = "spots/clearSpots";
+const CLEAN_SPOT = "spots/cleanSpot";
+
+const cleanSpot = (spot) => {
+  return {
+    type: CLEAN_SPOT,
+    payload: spot,
+  };
+};
 
 const clearSpots = () => {
   return {
@@ -76,13 +84,14 @@ export const makeReview = (review, spotId) => async (dispatch) => {
     method: "POST",
     body: JSON.stringify(review),
   };
-  console.log(spotId);
   const response = await csrfFetch(`/api/spots/${spotId}/reviews`, options);
 
   if (response.ok) {
     const data = await response.json();
-    console.log(data);
+    dispatch(refreshSpot());
+    dispatch(getSpotDetails(spotId));
     dispatch(getSpotReviews(data.spotId));
+    return {};
   } else return await response.json();
 };
 
@@ -119,6 +128,15 @@ export const makeSpot = (spot, images) => async (dispatch) => {
   }
   return response;
 };
+
+export function refreshSpot(spotId) {
+  return async (dispatch) => {
+    const response = await csrfFetch("/api/spot/" + spotId);
+    if (response.ok) {
+      await dispatch(addSpot(await response.json()));
+    }
+  };
+}
 
 export const editSpot = (oldSpot, spot, images) => async (dispatch) => {
   const options = {
@@ -164,6 +182,18 @@ export const deleteSpot = (spotId) => async (dispatch) => {
 
   if (response.ok) {
     return await dispatch(refreshSpots());
+  }
+};
+export const deleteReview = (reviewId, spotId) => async (dispatch) => {
+  const options = {
+    method: "DELETE",
+  };
+  const response = await csrfFetch("/api/reviews/" + reviewId, options);
+
+  if (response.ok) {
+    dispatch(refreshSpot());
+    dispatch(getSpotDetails(spotId));
+    dispatch(getSpotReviews(spotId));
   }
 };
 
