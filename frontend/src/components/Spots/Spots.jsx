@@ -1,8 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import * as spotActions from "../../store/spots";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Spots.css";
+import OpenModalButton from "../OpenModalButton";
+import ConfirmDelete from "../ConfirmDelete/ConfirmDelete";
 
 function Spots({ current }) {
   const dispatch = useDispatch();
@@ -12,11 +14,20 @@ function Spots({ current }) {
 
   const sessionUser = useSelector((state) => state.session.user);
 
+  const [open, setOpen] = useState(false);
+
   const handleClick = useNavigate();
   const handleUpdateClick = useNavigate();
+  const handleDeleteClick = () => {
+    setOpen(true);
+  };
 
   const spots = Object.values(useSelector((state) => state.spots));
   let newSpots;
+
+  // useEffect(() => {
+  //   dispatch(spotActions.refreshSpots());
+  // }, [open, dispatch]);
 
   if (current) {
     newSpots = spots.filter((spot) => {
@@ -24,6 +35,11 @@ function Spots({ current }) {
       return spot.ownerId === sessionUser.id;
     });
   }
+
+  const onDelete = (id) => () => {
+    dispatch(spotActions.deleteSpot(id));
+    setOpen(false);
+  };
 
   return (
     <div className="spots-back">
@@ -58,16 +74,28 @@ function Spots({ current }) {
                   </span>
                 </div>
               </div>
-              <div className="current-spot-buttons">
-                <button
-                  onClick={() => {
-                    handleUpdateClick(`/spots/${s.id}/edit`);
-                  }}
-                >
-                  Update
-                </button>
-                <button onClick={"handleDeleteClick"}>Delete</button>
-              </div>
+              {current ? (
+                <div className="current-spot-buttons">
+                  <button
+                    onClick={() => {
+                      handleUpdateClick(`/spots/${s.id}/edit`);
+                    }}
+                  >
+                    Update
+                  </button>
+                  <OpenModalButton
+                    modalComponent={
+                      <ConfirmDelete
+                        message={
+                          "Are you sure you want to remove this spot from the listings?"
+                        }
+                        onDelete={onDelete(s.id)}
+                      />
+                    }
+                    buttonText={"Delete"}
+                  />
+                </div>
+              ) : null}
             </div>
           </>
         ))}

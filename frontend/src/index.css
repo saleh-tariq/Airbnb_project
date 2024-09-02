@@ -27,3 +27,13 @@ button * {
 .error {
   color: steelblue;
 }
+
+#red {
+  background-color: red;
+  color: antiquewhite;
+}
+
+#grey {
+  background-color: gray;
+  color: rgb(33, 35, 40);
+}

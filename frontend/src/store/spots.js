@@ -151,13 +151,18 @@ export const editSpot = (oldSpot, spot, images) => async (dispatch) => {
     if (allG) {
       dispatch(addSpot(data));
       return `/spots/${data.id}`;
-    } else {
-      console.log("\n\nBIG UH OH \nBIG UH OH \nBIG UH OH \n\n");
     }
-  } else {
-    console.log(await response.json());
   }
   return response;
+};
+
+export const deleteSpot = (spotId) => async (dispatch) => {
+  const options = {
+    method: "DELETE",
+  };
+  const response = await csrfFetch("/api/spots/" + spotId, options);
+
+  return await dispatch(refreshSpots());
 };
 
 const initialState = {};
