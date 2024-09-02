@@ -75,7 +75,12 @@ function NewSpot({ update }) {
       : [];
     spot.SpotImages &&
       revisedImages.forEach((img, id) => {
-        setImages({ ...images, [id + 1]: img });
+        setImages({
+          ...(() => {
+            return images;
+          })(),
+          [id + 1]: img,
+        });
       });
   }, [
     spot,

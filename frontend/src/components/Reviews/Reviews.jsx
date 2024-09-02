@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import * as spotActions from "../../store/spots";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./Reviews.css";
 import OpenModalButton from "../OpenModalButton";
