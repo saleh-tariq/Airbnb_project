@@ -64,7 +64,7 @@ function Spots() {
           <p>
             ★{" "}
             {avgStarRating
-              ? avgStarRating.toFixed(1) + " | " + { numReviews }
+              ? `${avgStarRating.toFixed(1)} | ${numReviews}`
               : "New"}
           </p>
           <button>Reserve</button>
