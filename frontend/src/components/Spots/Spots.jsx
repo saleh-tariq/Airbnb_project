@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import * as spotActions from "../../store/spots";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Spots.css";
 import OpenModalButton from "../OpenModalButton";
@@ -14,20 +14,11 @@ function Spots({ current }) {
 
   const sessionUser = useSelector((state) => state.session.user);
 
-  const [open, setOpen] = useState(false);
-
   const handleClick = useNavigate();
   const handleUpdateClick = useNavigate();
-  const handleDeleteClick = () => {
-    setOpen(true);
-  };
 
   const spots = Object.values(useSelector((state) => state.spots));
   let newSpots;
-
-  // useEffect(() => {
-  //   dispatch(spotActions.refreshSpots());
-  // }, [open, dispatch]);
 
   if (current) {
     newSpots = spots.filter((spot) => {
@@ -38,7 +29,6 @@ function Spots({ current }) {
 
   const onDelete = (id) => () => {
     dispatch(spotActions.deleteSpot(id));
-    setOpen(false);
   };
 
   return (

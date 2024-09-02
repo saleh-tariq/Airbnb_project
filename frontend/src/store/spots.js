@@ -162,7 +162,9 @@ export const deleteSpot = (spotId) => async (dispatch) => {
   };
   const response = await csrfFetch("/api/spots/" + spotId, options);
 
-  return await dispatch(refreshSpots());
+  if (response.ok) {
+    return await dispatch(refreshSpots());
+  }
 };
 
 const initialState = {};
