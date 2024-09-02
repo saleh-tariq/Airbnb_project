@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import * as spotActions from "../../store/spots";
 
-function NewSpot() {
+function NewSpot({ update }) {
+  const { spotId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -19,32 +20,6 @@ function NewSpot() {
   const [images, setImages] = useState({});
   const [errors, setErrors] = useState({});
 
-  // useEffect(() => {
-  //   console.log({
-  //     country,
-  //     address,
-  //     city,
-  //     state,
-  //     latitude,
-  //     longitude,
-  //     description,
-  //     title,
-  //     price,
-  //     images,
-  //   });
-  // }, [
-  //   country,
-  //   address,
-  //   city,
-  //   state,
-  //   latitude,
-  //   longitude,
-  //   description,
-  //   title,
-  //   price,
-  //   images,
-  // ]);
-
   const handleImageInput = (target) => (e) => {
     const updatedImages = { [target]: e.target.value };
     setImages({ ...images, ...updatedImages });
@@ -55,9 +30,7 @@ function NewSpot() {
 
     Object.entries(sample).forEach((e) => {
       const [key, value] = e;
-      // console.log("key:", key, "\nvalue:", value);
       const processedValue = value.split(".")[value.split(".").length - 1];
-      // console.log(processedValue);
       if (
         processedValue !== "jpeg" &&
         processedValue !== "jpg" &&
@@ -71,6 +44,15 @@ function NewSpot() {
 
     return invalidImages[0] ? invalidImages : false;
   };
+  useEffect(() => {
+    if (update) {
+      dispatch(spotActions.getSpotDetails(spotId));
+      console.log("UPDATED!!!!!!");
+    }
+  }, [dispatch, update, spotId]);
+  const spots = Object.values(useSelector((state) => state.spots));
+  const spot = spotId ? spots.find((spt) => spt.id === Number(spotId)) : null;
+  console.log(spot);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -115,33 +97,52 @@ function NewSpot() {
     }
 
     if (Object.values(updatedErrors)[0]) {
-      // console.log(images);
-      // console.log(updatedErrors);
       setErrors({ ...errors, ...updatedErrors });
     } else {
-      const newUrl = await dispatch(
-        spotActions.makeSpot(
-          {
-            address,
-            city,
-            state,
-            country,
-            lat: +latitude,
-            lng: +longitude,
-            name: title,
-            description,
-            price: +price,
-          },
-          images
-        )
-      );
+      let newUrl;
+      if (update) {
+        newUrl = await dispatch(
+          spotActions.editSpot(
+            spot,
+            {
+              address,
+              city,
+              state,
+              country,
+              lat: +latitude,
+              lng: +longitude,
+              name: title,
+              description,
+              price: +price,
+            },
+            images
+          )
+        );
+      } else {
+        newUrl = await dispatch(
+          spotActions.makeSpot(
+            {
+              address,
+              city,
+              state,
+              country,
+              lat: +latitude,
+              lng: +longitude,
+              name: title,
+              description,
+              price: +price,
+            },
+            images
+          )
+        );
+      }
       navigate(newUrl);
     }
   };
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <h2>Create a New Spot</h2>
+        <h2>{update ? "Update your Spot" : "Create a New Spot"}</h2>
         <div className="create-spot-location create-spot-subsection">
           <h3>Where is your place located?????????</h3>
           <p>

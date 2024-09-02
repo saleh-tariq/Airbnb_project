@@ -29,7 +29,9 @@ function Reviews() {
     dispatch(spotActions.getSpotReviews(spotId));
   }, [dispatch, spotId]);
 
-  const spot = useSelector((state) => state.spots)[spotId];
+  const spot = Object.values(useSelector((state) => state.spots)).find(
+    (spt) => spt.id === Number(spotId)
+  );
   const { avgStarRating, numReviews } = spot;
   const reviews = spot.Reviews ? Object.values(spot.Reviews) : [];
   return (
@@ -46,7 +48,7 @@ function Reviews() {
         modalComponent={<CreateReview spotId={spotId} />}
         buttonText="Create a review"
       />
-      {reviews.map((el) => (
+      {reviews.reverse().map((el) => (
         <div key={el.id} className="review">
           <h4>{el.User.firstName}</h4>
           <h6 className="faded">{`${months[el.createdAt.split("-")[1] - 1]} ${

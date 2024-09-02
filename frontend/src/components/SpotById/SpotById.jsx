@@ -11,7 +11,9 @@ function Spots() {
     dispatch(spotActions.getSpotDetails(spotId));
   }, [dispatch, spotId]);
 
-  const spot = useSelector((state) => state.spots)[spotId];
+  const spot = Object.values(useSelector((state) => state.spots)).find(
+    (spt) => spt.id === Number(spotId)
+  );
   const {
     name,
     city,
@@ -23,7 +25,7 @@ function Spots() {
     avgStarRating,
     numReviews,
   } = spot;
-  const { firstName, lastName } = spot.Owner || {
+  const { firstName, lastName } = spot.User || {
     firstName: null,
     lastName: null,
   };

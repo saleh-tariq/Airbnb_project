@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Navigation from "./components/Navigation/Navigation";
 import Spots from "./components/Spots";
@@ -35,7 +35,24 @@ const router = createBrowserRouter([
         element: <Spots />,
       },
       {
+        path: "/spots/current",
+        element: <Spots current={true} />,
+      },
+      {
         path: "/spots/:spotId",
+        element: (
+          <>
+            <SpotById />
+            <Reviews />
+          </>
+        ),
+      },
+      {
+        path: "/spots/:spotId/edit",
+        element: <NewSpot update={true} />,
+      },
+      {
+        path: "/spots",
         element: (
           <>
             <SpotById />
