@@ -24,7 +24,8 @@ button * {
   background-color: steelblue;
 }
 
-.error {
+.error,
+.errors {
   color: steelblue;
 }
 
@@ -36,4 +37,9 @@ button * {
 #grey {
   background-color: gray;
   color: rgb(33, 35, 40);
+}
+
+.smaller {
+  font-size: smaller;
+  opacity: 70%;
 }

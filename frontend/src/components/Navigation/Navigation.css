@@ -1,6 +1,6 @@
 .nav-bar {
   height: 80px;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid antiquewhite;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19,9 +19,10 @@
   position: fixed;
   top: 80px;
   right: 5%;
-  border: 1px solid white;
-  display: flex;
-  flex-direction: column;
+  border: 1px solid antiquewhite;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 5px;
   padding: 10px;
   z-index: 1000;
 }
@@ -33,4 +34,11 @@
   display: flex;
   gap: 20px;
   align-items: center;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: steelblue;
 }

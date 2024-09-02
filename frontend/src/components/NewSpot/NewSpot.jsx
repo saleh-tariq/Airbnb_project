@@ -2,23 +2,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import * as spotActions from "../../store/spots";
+import "./NewSpot.css";
 
 function NewSpot({ update }) {
   const { spotId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const [country, setCountry] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
-  const [description, setDescription] = useState("");
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState(0);
-  const [images, setImages] = useState({});
-  const [errors, setErrors] = useState({});
 
   const handleImageInput = (target) => (e) => {
     const updatedImages = { [target]: e.target.value };
@@ -53,9 +42,59 @@ function NewSpot({ update }) {
   const spot = spotId ? spots.find((spt) => spt.id === Number(spotId)) : null;
   console.log(spot);
 
+  const [country, setCountry] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
+  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState(0);
+  const [images, setImages] = useState({});
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    setCountry(spot.country);
+    setAddress(spot.address);
+    setCity(spot.city);
+    setState(spot.state);
+    setLatitude(spot.lat);
+    setLongitude(spot.lng);
+    setDescription(spot.description);
+    setTitle(spot.name);
+    setPrice(spot.price);
+    setImages({ prev: spot.previewImage });
+    const revisedImages = spot.SpotImages
+      ? spot.SpotImages.reduce((acc, el) => {
+          if (!el.preview) {
+            acc.push(el.url);
+          }
+          return acc;
+        }, [])
+      : [];
+    spot.SpotImages &&
+      revisedImages.forEach((img, id) => {
+        setImages({ ...images, [id + 1]: img });
+      });
+  }, [
+    spot,
+    setCountry,
+    setAddress,
+    setCity,
+    setState,
+    setLatitude,
+    setLongitude,
+    setDescription,
+    setTitle,
+    setPrice,
+    setImages,
+  ]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedErrors = {};
+    setErrors({});
     if (!country) {
       updatedErrors.country = "Country is required";
     }
@@ -139,89 +178,98 @@ function NewSpot({ update }) {
     }
   };
   return (
-    <>
-      <form onSubmit={handleSubmit}>
+    <div className="create-spot">
+      <form className="create-spot-form" onSubmit={handleSubmit}>
         <h2>{update ? "Update your Spot" : "Create a New Spot"}</h2>
         <div className="create-spot-location create-spot-subsection">
-          <h3>Where is your place located?????????</h3>
+          <h3>Where is your place located?</h3>
           <p>
             Guests will only get your exact address once they book a
             reservation.
           </p>
-          <div>
-            <span>
+          <div className="country">
+            <span className="side-by-side">
               <p>Country</p>
               {errors.country ? (
-                <p className="errors">{errors.country}</p>
+                <p className="errors smaller">{errors.country}</p>
               ) : null}
             </span>
             <input
+              value={country}
               onInput={(e) => setCountry(e.target.value)}
               type="text"
               placeholder="Country"
             />
           </div>
           <div>
-            <span>
+            <span className="side-by-side">
               <p>Street Address</p>
               {errors.address ? (
-                <p className="errors">{errors.address}</p>
+                <p className="errors smaller">{errors.address}</p>
               ) : null}
             </span>
             <input
+              value={address}
               onInput={(e) => setAddress(e.target.value)}
               type="text"
               placeholder="Address"
             />
           </div>
 
-          <span>
+          <span className="side-by-side">
             <div>
-              <span>
+              <span className="side-by-side">
                 <p>City</p>
-                {errors.city ? <p className="errors">{errors.city}</p> : null}
+                {errors.city ? (
+                  <p className="errors smaller">{errors.city}</p>
+                ) : null}
               </span>
               <input
+                value={city}
                 onInput={(e) => setCity(e.target.value)}
                 type="text"
                 placeholder="City"
               />
             </div>
-            <p>, </p>
             <div>
-              <span>
+              <span className="side-by-side">
                 <p>State</p>
-                {errors.state ? <p className="errors">{errors.state}</p> : null}
+                {errors.state ? (
+                  <p className="errors smaller">{errors.state}</p>
+                ) : null}
               </span>
               <input
+                value={state}
                 onInput={(e) => setState(e.target.value)}
                 type="text"
                 placeholder="State"
               />
             </div>
           </span>
-          <span>
+          <span className="side-by-side">
             <div>
-              <span>
+              <span className="side-by-side">
                 <p>Latitude</p>
                 {errors.latitude ? (
-                  <p className="errors">{errors.latitude}</p>
+                  <p className="errors smaller">{errors.latitude}</p>
                 ) : null}
               </span>
               <input
+                value={latitude}
                 onInput={(e) => setLatitude(e.target.value)}
                 type="number"
                 placeholder="Latitude"
               />
             </div>
             <div>
-              <span>
+              <span className="side-by-side">
                 <p>Longitude</p>
                 {errors.longitude ? (
-                  <p className="errors">{errors.longitude}</p>
+                  <p className="errors smaller">{errors.longitude}</p>
                 ) : null}
               </span>
               <input
+                value={longitude}
                 onInput={(e) => setLongitude(e.target.value)}
                 type="number"
                 placeholder="Longitude"
@@ -237,13 +285,16 @@ function NewSpot({ update }) {
             fast wifi or parking, and what you love about the neighborhood.
           </p>
           <div>
-            <input
+            <textarea
+              value={description}
+              className="text-area"
+              style={{ resize: "none" }}
               onInput={(e) => setDescription(e.target.value)}
               type="text"
               placeholder="Please write at least 30 characters"
             />
             {errors.description ? (
-              <p className="errors">{errors.description}</p>
+              <p className="errors smaller">{errors.description}</p>
             ) : null}
           </div>
         </div>
@@ -256,11 +307,14 @@ function NewSpot({ update }) {
           </p>
           <div>
             <input
+              value={title}
               onInput={(e) => setTitle(e.target.value)}
               type="text"
               placeholder="Name of your spot"
             />
-            {errors.title ? <p className="errors">{errors.title}</p> : null}
+            {errors.title ? (
+              <p className="errors smaller">{errors.title}</p>
+            ) : null}
           </div>
         </div>
 
@@ -271,56 +325,78 @@ function NewSpot({ update }) {
             in search results.
           </p>
           <div>
-            <p>$</p>
-            <input
-              onInput={(e) => setPrice(e.target.value)}
-              type="number"
-              placeholder="Price per night (USD)"
-            />
-            {errors.price ? <p className="errors">{errors.price}</p> : null}
+            <span className="side-by-side">
+              <p>$</p>
+              <input
+                value={price}
+                onInput={(e) => setPrice(e.target.value)}
+                type="number"
+                placeholder="Price per night (USD)"
+              />
+            </span>
+            {errors.price ? (
+              <p className="errors smaller">{errors.price}</p>
+            ) : null}
           </div>
         </div>
 
         <div className="create-spot-images create-spot-subsection">
           <h3>Liven up your spot with photos</h3>
           <p>Submit a link to at least one photo to publish your spot</p>
-          <div>
+          <div className="create-spot-images">
             <input
+              value={images.prev}
               onInput={handleImageInput("prev")}
               type="text"
               placeholder="Preview Image URL"
             />
-            {errors.prev ? <p className="errors">{errors.prev}</p> : null}
+            {errors.prev ? (
+              <p className="errors smaller">{errors.prev}</p>
+            ) : null}
             <input
+              value={images[1]}
               onInput={handleImageInput("1")}
               type="text"
               placeholder="Image URL"
             />
-            {errors["1"] ? <p className="errors">{errors["1"]}</p> : null}
+            {errors["1"] ? (
+              <p className="errors smaller">{errors["1"]}</p>
+            ) : null}
             <input
+              value={images[2]}
               onInput={handleImageInput("2")}
               type="text"
               placeholder="Image URL"
             />
-            {errors["2"] ? <p className="errors">{errors["2"]}</p> : null}
+            {errors["2"] ? (
+              <p className="errors smaller">{errors["2"]}</p>
+            ) : null}
             <input
+              value={images[3]}
               onInput={handleImageInput("3")}
               type="text"
               placeholder="Image URL"
             />
-            {errors["3"] ? <p className="errors">{errors["3"]}</p> : null}
+            {errors["3"] ? (
+              <p className="errors smaller">{errors["3"]}</p>
+            ) : null}
             <input
+              value={images[4]}
               onInput={handleImageInput("4")}
               type="text"
               placeholder="Image URL"
             />
-            {errors["4"] ? <p className="errors">{errors["4"]}</p> : null}
+            {errors["4"] ? (
+              <p className="errors smaller">{errors["4"]}</p>
+            ) : null}
           </div>
         </div>
 
-        <button type="submit">Create Spot</button>
+        <div className="button-holder">
+          <button type="submit">Create Spot</button>
+        </div>
       </form>
-    </>
+    </div>
   );
 }
 

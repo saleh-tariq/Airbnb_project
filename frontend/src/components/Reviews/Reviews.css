@@ -1,0 +1,24 @@
+.reviews {
+  display: grid;
+  grid-template-columns: 1fr fit-content 1fr;
+  width: 100%;
+  grid-template-areas: ". content .";
+}
+
+.reviews-content {
+  grid-area: content;
+  max-width: 1000px;
+  width: 1000px;
+}
+.review-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+.faded {
+  opacity: 60%;
+}
+
+.review {
+  padding: 10px 0px;
+  border-top: 1px solid steelblue;
+}

@@ -29,6 +29,7 @@ function CreateReview({ spotId }) {
         <h2>How was your stay?</h2>
         {error ? <p className="error">{error}</p> : null}
         <textarea
+          placeholder="Leave your review here..."
           type="text"
           className="create-review-input"
           onInput={(e) => setTextField(e.target.value)}
@@ -101,8 +102,8 @@ function CreateReview({ spotId }) {
           </h3>
           <h3>Stars</h3>
         </span>
-        <button type="submit" disabled={textField.length < 10}>
-          Submit Review
+        <button type="submit" disabled={!(textField.length > 10 && stars)}>
+          Submit Your Review
         </button>
       </form>
     </div>

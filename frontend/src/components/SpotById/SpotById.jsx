@@ -33,43 +33,49 @@ function Spots() {
 
   return (
     <div className="spot-details">
-      <div className="top-details">
-        <h2>{name}</h2>
-        <p>Location: {`${city}, ${state}, ${country}`}</p>
-      </div>
-      <div>
-        <img src={previewImage}></img>
-        <div className="non-preview-images">
+      <div className="spot-details-content">
+        <div className="top-details">
+          <h2 className="bluetext">{name}</h2>
+          <p>Location: {`${city}, ${state}, ${country}`}</p>
+        </div>
+        <div className="spot-details-images">
+          <img src={previewImage} className="preview-image"></img>
           {spotImages ? (
-            <ul>
+            <div className="non-preview-images">
               {spotImages.map((img) =>
-                !img.preview ? (
-                  <li key={img.id}>
-                    <img src={img.url} />
-                  </li>
-                ) : null
+                !img.preview ? <img key={img.id} src={img.url} /> : null
               )}
-            </ul>
+            </div>
           ) : null}
         </div>
-      </div>
-      <div className="details-details">
-        <div className="description">
-          <p>Hosted by: {`${lastName}, ${firstName}`}</p>
-          <p>{description}</p>
-        </div>
-        <div className="reserve-area">
-          <span>
-            <p>{`$${price}`}</p>
-            <p>night</p>
-          </span>
-          <p>
-            ★{" "}
-            {avgStarRating
-              ? `${avgStarRating.toFixed(1)} | ${numReviews}`
-              : "New"}
-          </p>
-          <button>Reserve</button>
+        <div className="details-details">
+          <div className="description">
+            <p className="hosted-by bluetext">
+              Hosted by: {`${lastName}, ${firstName}`}
+            </p>
+            <p>{description}</p>
+          </div>
+          <div className="reserve-area">
+            <div className="price-per-night">
+              <p>{`$${price}`}</p>
+              <p id="night">night</p>
+            </div>
+            <p>
+              ★{" "}
+              {numReviews
+                ? `${avgStarRating.toFixed(1)} · ${numReviews} review${
+                    numReviews !== 1 ? "s" : ""
+                  }`
+                : "New"}
+            </p>
+
+            <button
+              className="reserve-button"
+              onClick={() => alert("Feature Coming Soon...")}
+            >
+              Reserve
+            </button>
+          </div>
         </div>
       </div>
     </div>

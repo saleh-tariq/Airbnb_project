@@ -2,13 +2,19 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
+import { FaAirbnb } from "react-icons/fa";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
 
   return (
     <div className="nav-bar">
-      <NavLink to="/">WindBreadNButter</NavLink>
+      <NavLink to="/">
+        <div className="logo">
+          <FaAirbnb />
+          WindBreadNButter
+        </div>
+      </NavLink>
       {isLoaded && (
         <div className="nav-bar-profile">
           {sessionUser ? (
