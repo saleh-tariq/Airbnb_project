@@ -42,6 +42,7 @@ function LoginFormModal() {
           type="text"
           value={credential}
           onChange={(e) => setCredential(e.target.value)}
+          onClick={(e) => e.stopPropagation()}
           required
         />
         <input
@@ -49,10 +50,15 @@ function LoginFormModal() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onClick={(e) => e.stopPropagation()}
           required
         />
         {errors.credential && <p className="error">{errors.credential}</p>}
-        <button type="submit" disabled={disabled}>
+        <button
+          type="submit"
+          disabled={disabled}
+          onClick={(e) => e.stopPropagation()}
+        >
           Log In
         </button>
         <button

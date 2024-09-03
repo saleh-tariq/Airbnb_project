@@ -47,9 +47,7 @@ function Spots({ current }) {
                   className="spot-img-container"
                   style={{ backgroundImage: `url(${s.previewImage})` }}
                 >
-                  <div className="spot-img-container-fore">
-                    <p className="spot-hover-disc">{s.name}</p>
-                  </div>
+                  <p className="tooltip-text">{s.name}</p>
                 </div>
                 <div className="spot-text">
                   <span className="spot-address-line">
