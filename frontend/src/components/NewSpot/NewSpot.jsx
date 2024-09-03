@@ -116,8 +116,14 @@ function NewSpot({ update }) {
     if (!latitude) {
       updatedErrors.latitude = "Latitude is required";
     }
+    if (latitude > 90 || latitude < -90) {
+      updatedErrors.latitude = "Latitude must be between -90 and 90";
+    }
     if (!longitude) {
       updatedErrors.longitude = "Longitude is required";
+    }
+    if (longitude > 180 || longitude < -180) {
+      updatedErrors.longitude = "Longitude must be between -180 and 180";
     }
     if (!description || description.length < 30) {
       updatedErrors.description =
@@ -128,6 +134,9 @@ function NewSpot({ update }) {
     }
     if (!price) {
       updatedErrors.price = "Price is required";
+    }
+    if (price < 0) {
+      updatedErrors.price = "Price cannot be negative";
     }
     if (!images.prev) {
       updatedErrors.prev = "Preview is required";
