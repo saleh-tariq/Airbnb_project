@@ -49,7 +49,7 @@ function ProfileButton({ user }) {
       <h2 onClick={toggleMenu}>
         <FaUserCircle />
       </h2>
-      <ul className={ulClassName} ref={ulRef}>
+      <div className={ulClassName} ref={ulRef}>
         {user ? (
           <>
             <p>Hello, {user.firstName}</p>
@@ -73,7 +73,7 @@ function ProfileButton({ user }) {
             />
           </>
         )}
-      </ul>
+      </div>
     </>
   );
 }

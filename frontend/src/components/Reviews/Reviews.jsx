@@ -75,6 +75,7 @@ function Reviews() {
                       <ConfirmDelete
                         message={"Are you sure you want to delete this review?"}
                         onDelete={onDelete(el.id)}
+                        type={"Review"}
                       />
                     }
                   />

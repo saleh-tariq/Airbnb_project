@@ -1,0 +1,39 @@
+.delete-modal {
+  width: 400px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 10px;
+}
+
+.delete-modal p {
+  font-size: 20px;
+}
+
+.delete-modal h2 {
+  font-size: 40px;
+  color: steelblue;
+  text-align: center;
+}
+
+.delete-modal button {
+  width: 100%;
+}
+
+.delete-buttons {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  padding: 10px;
+  gap: 10px;
+}
+.delete-buttons button {
+  width: 100%;
+  padding: 10px;
+}
+
+.ninety {
+  width: 90%;
+}

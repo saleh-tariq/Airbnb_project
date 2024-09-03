@@ -102,7 +102,11 @@ function CreateReview({ spotId }) {
           </h3>
           <h3>Stars</h3>
         </span>
-        <button type="submit" disabled={!(textField.length > 10 && stars)}>
+        <button
+          className="submit-your-review"
+          type="submit"
+          disabled={!(textField.length >= 10 && stars)}
+        >
           Submit Your Review
         </button>
       </form>

@@ -57,3 +57,39 @@
   width: 100px;
   height: 30px;
 }
+
+.address input {
+  width: 100%;
+}
+
+.side-inputs {
+  width: 100%;
+}
+
+.sixty {
+  width: 60%;
+}
+
+.sixty input {
+  width: 100%;
+}
+
+.fourty {
+  width: 40%;
+}
+
+.fourty input {
+  width: 100%;
+}
+
+.fifty {
+  width: 50%;
+}
+
+.fifty input {
+  width: 100%;
+}
+
+.hundo {
+  width: 100%;
+}

@@ -40,7 +40,6 @@ function NewSpot({ update }) {
   }, [dispatch, update, spotId]);
   const spots = Object.values(useSelector((state) => state.spots));
   const spot = spotId ? spots.find((spt) => spt.id === Number(spotId)) : null;
-  console.log(spot);
 
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
@@ -208,7 +207,7 @@ function NewSpot({ update }) {
               placeholder="Country"
             />
           </div>
-          <div>
+          <div className="address">
             <span className="side-by-side">
               <p>Street Address</p>
               {errors.address ? (
@@ -224,7 +223,7 @@ function NewSpot({ update }) {
           </div>
 
           <span className="side-by-side">
-            <div>
+            <div className="sixty">
               <span className="side-by-side">
                 <p>City</p>
                 {errors.city ? (
@@ -238,7 +237,7 @@ function NewSpot({ update }) {
                 placeholder="City"
               />
             </div>
-            <div>
+            <div className="fourty">
               <span className="side-by-side">
                 <p>State</p>
                 {errors.state ? (
@@ -254,7 +253,7 @@ function NewSpot({ update }) {
             </div>
           </span>
           <span className="side-by-side">
-            <div>
+            <div className="fifty">
               <span className="side-by-side">
                 <p>Latitude</p>
                 {errors.latitude ? (
@@ -268,7 +267,7 @@ function NewSpot({ update }) {
                 placeholder="Latitude"
               />
             </div>
-            <div>
+            <div className="fifty">
               <span className="side-by-side">
                 <p>Longitude</p>
                 {errors.longitude ? (
@@ -314,6 +313,7 @@ function NewSpot({ update }) {
           </p>
           <div>
             <input
+              className="hundo"
               value={title}
               onInput={(e) => setTitle(e.target.value)}
               type="text"
@@ -335,6 +335,7 @@ function NewSpot({ update }) {
             <span className="side-by-side">
               <p>$</p>
               <input
+                className="hundo"
                 value={price}
                 onInput={(e) => setPrice(e.target.value)}
                 type="number"
@@ -400,7 +401,9 @@ function NewSpot({ update }) {
         </div>
 
         <div className="button-holder">
-          <button type="submit">Create Spot</button>
+          <button type="submit">
+            {update ? "Update Spot" : "Create Spot"}
+          </button>
         </div>
       </form>
     </div>

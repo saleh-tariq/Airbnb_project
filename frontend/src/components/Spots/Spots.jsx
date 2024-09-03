@@ -22,7 +22,6 @@ function Spots({ current }) {
 
   if (current) {
     newSpots = spots.filter((spot) => {
-      console.log(spot.ownerId === sessionUser.id);
       return spot.ownerId === sessionUser.id;
     });
   }
@@ -38,11 +37,12 @@ function Spots({ current }) {
       <div className="spots">
         {(newSpots || spots).map((s) => (
           <>
-            <div key={s.id} className="spot">
-              <div
-                className="spot-content"
-                onClick={() => handleClick("/spots/" + s.id)}
-              >
+            <div
+              key={s.id}
+              className="spot"
+              onClick={() => handleClick("/spots/" + s.id)}
+            >
+              <div className="spot-content">
                 <div
                   className="spot-img-container"
                   style={{ backgroundImage: `url(${s.previewImage})` }}
@@ -65,7 +65,12 @@ function Spots({ current }) {
                 </div>
               </div>
               {current ? (
-                <div className="current-spot-buttons">
+                <div
+                  className="current-spot-buttons"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
                   <button
                     onClick={() => {
                       handleUpdateClick(`/spots/${s.id}/edit`);
@@ -80,6 +85,7 @@ function Spots({ current }) {
                           "Are you sure you want to remove this spot from the listings?"
                         }
                         onDelete={onDelete(s.id)}
+                        type={"Spot"}
                       />
                     }
                     buttonText={"Delete"}

@@ -1,22 +1,26 @@
 import "./ConfirmDelete.css";
 import { useModal } from "../../context/Modal";
 
-function ConfirmDelete({ message, onDelete }) {
+function ConfirmDelete({ message, onDelete, type }) {
   const { closeModal } = useModal();
   const handleClick = (d) => () => {
     d && onDelete();
     closeModal();
   };
   return (
-    <div>
-      <h1>Confirm Delete</h1>
-      <p>{message}</p>
-      <button id="red" onClick={handleClick(true)}>
-        yes
-      </button>
-      <button id="grey" onClick={handleClick(false)}>
-        no
-      </button>
+    <div className="delete-modal">
+      <h2>Confirm Delete</h2>
+      <div className="ninety">
+        <p>{message}</p>
+      </div>
+      <div className="delete-buttons">
+        <button id="red" onClick={handleClick(true)}>
+          {`Yes (Delete the ${type})`}
+        </button>
+        <button id="grey" onClick={handleClick(false)}>
+          {`No (Keep the ${type})`}
+        </button>
+      </div>
     </div>
   );
 }

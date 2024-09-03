@@ -96,7 +96,7 @@ export const makeSpot = (spot, images) => async (dispatch) => {
   let allG = true;
   if (response.ok) {
     const data = await response.json();
-    console.log(data);
+
     const imgArray = Object.entries(images);
     for (let i = 0; i < imgArray.length; i++) {
       const [key, value] = imgArray[i];
@@ -112,11 +112,7 @@ export const makeSpot = (spot, images) => async (dispatch) => {
     if (allG) {
       dispatch(addSpot(data));
       return `/spots/${data.id}`;
-    } else {
-      console.log("\n\nBIG UH OH \nBIG UH OH \nBIG UH OH \n\n");
     }
-  } else {
-    console.log(await response.json());
   }
   return response;
 };
@@ -140,7 +136,6 @@ export const editSpot = (oldSpot, spot, images) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     const oldImages = oldSpot.SpotImages;
-    console.log(oldSpot);
     for (let i = 0; i < oldImages.length; i++) {
       await csrfFetch("/api/spot-images/" + oldImages[i].id, {
         method: "DELETE",
