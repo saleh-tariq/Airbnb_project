@@ -113,13 +113,13 @@ function NewSpot({ update }) {
     if (!state) {
       updatedErrors.state = "State is required";
     }
-    if (!latitude) {
+    if (latitude === "") {
       updatedErrors.latitude = "Latitude is required";
     }
     if (latitude > 90 || latitude < -90) {
       updatedErrors.latitude = "Latitude must be between -90 and 90";
     }
-    if (!longitude) {
+    if (longitude === "") {
       updatedErrors.longitude = "Longitude is required";
     }
     if (longitude > 180 || longitude < -180) {
