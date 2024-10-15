@@ -10,7 +10,7 @@ This project is meant to demonstrate my capabilities as a full stack developer.
   - CSS
 - Backend
   - Express
-  - SQL
+  - Sequelize
 
 ## PREVIEW
 ![image](https://github.com/user-attachments/assets/7960efa2-bed0-465d-9aea-d78e34fa24e4)
