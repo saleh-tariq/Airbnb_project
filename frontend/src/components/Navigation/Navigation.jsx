@@ -12,7 +12,7 @@ function Navigation({ isLoaded }) {
       <NavLink to="/">
         <div className="logo">
           <FaAirbnb />
-          WindBreadNButter
+          WindPlacesAndSpots
         </div>
       </NavLink>
       {isLoaded && (
